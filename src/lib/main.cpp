@@ -38,6 +38,57 @@
 **
 ****************************************************************************/
 
+#if 1
+#include<opencv2/core/core.hpp>
+#include<opencv2/highgui/highgui.hpp>
+
+using namespace cv;
+
+class CApp{
+public:
+    static int readImage(const string &fileName);
+    static int readVideo(const string &fileName);
+};
+
+int CApp::readImage(const string &fileName){
+    Mat image = imread(fileName);
+    if(image.rows > 0){
+        imshow("My Image", image);
+        return 0;
+    }else{
+        return -1;
+    }
+}
+
+// failed, fixme later
+// error message: GStreamer: Error opening bin: Unrecoverable syntax error while parsing pipeline
+int CApp::readVideo(const string &fileName){
+    VideoCapture capture(fileName);
+    if(!capture.isOpened()){
+        throw "Erro when reading video\n";
+        return -1;
+    }
+
+    Mat frame;
+    for(;;){
+        capture >> frame;
+        if(frame.empty()) break;
+        imshow("video", frame);
+        waitKey(20);
+    }
+    return 0;
+}
+
+int main(){
+    //CApp::readImage("/Users/hank/allProjects/src/mediaAlgoManager/build-mediaAlgoManager-Desktop_Qt_5_4_0_clang_64bit-Debug/copy.png");
+    CApp::readVideo("3.avi");
+
+    waitKey(0);
+
+    return 0;
+}
+
+#else
 //! [0]
 #include <QApplication>
 
@@ -54,4 +105,6 @@ int main(int argc, char *argv[])
     mainWin.show();
     return app.exec();
 }
+
+#endif
 //! [0]

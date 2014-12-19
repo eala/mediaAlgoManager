@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# built directory
+*-Debug/*
+
+# user toolchain configuration
+*.pro.user
