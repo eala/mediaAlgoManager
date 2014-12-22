@@ -1,6 +1,6 @@
 QT += widgets
 
-#CONFIG -= app_bundle
+CONFIG -= app_bundle
 
 #INCLUDEPATH += src/3rdparty/opencv/include
 #LIBS += -L"$$_PRO_FILE_PWD_/src/3rdparty/opencv/lib/" \

@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("OpenCV meets Qt");
     MainWindow mainWin;
     mainWin.show();
-    CApp::readVideo("/Users/hank/allProjects/src/mediaAlgoManager/src/bin/video/sample.avi");
+    CApp::readVideo("/Users/hank/allProjects/install/its_env/0815-7.avi");
     return app.exec();
 }
 
