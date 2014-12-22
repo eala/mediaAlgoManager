@@ -38,7 +38,9 @@
 **
 ****************************************************************************/
 
-#if 1
+#include <QApplication>
+#include "mainwindow.h"
+
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
 
@@ -70,41 +72,29 @@ int CApp::readVideo(const string &fileName){
     }
 
     Mat frame;
+    const string windowName("demo video");
+    namedWindow(windowName);
     for(;;){
         capture >> frame;
         if(frame.empty()) break;
-        imshow("video", frame);
-        waitKey(20);
+        imshow(windowName, frame);
+        char key=waitKey(20);
+        if('Q' == key || 'q' == key) break;
     }
+    destroyAllWindows();
     return 0;
 }
-
-int main(){
-    //CApp::readImage("/Users/hank/allProjects/src/mediaAlgoManager/build-mediaAlgoManager-Desktop_Qt_5_4_0_clang_64bit-Debug/copy.png");
-    CApp::readVideo("3.avi");
-
-    waitKey(0);
-
-    return 0;
-}
-
-#else
-//! [0]
-#include <QApplication>
-
-#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(application);
+    Q_INIT_RESOURCE(mediaalgomanager);
 
     QApplication app(argc, argv);
-    app.setOrganizationName("QtProject");
-    app.setApplicationName("Application Example");
+    app.setOrganizationName("HwangTaiChi");
+    app.setApplicationName("OpenCV meets Qt");
     MainWindow mainWin;
     mainWin.show();
+    CApp::readVideo("/Users/hank/allProjects/src/mediaAlgoManager/src/bin/video/sample.avi");
     return app.exec();
 }
 
-#endif
-//! [0]
