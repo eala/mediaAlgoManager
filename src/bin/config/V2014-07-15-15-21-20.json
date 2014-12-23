@@ -16,10 +16,10 @@
         "weather": "sunny"
     },
     "categories":[
-        "car",
-        "pedestrian",
-        "lane",
-        "unknown"
+        "CAR",
+        "PEDESTRIAN",
+        "LANE",
+        "UNKNOWN"
         ],
     "frames":[
         {
@@ -27,15 +27,15 @@
             "objects":[
                 {
                     "rect": [234, 169, 110, 88],
-                    "category": "car"
+                    "category": "CAR"
                 },
                 {
                     "rect": [234, 162, 110, 88],
-                    "category": "unknown"
+                    "category": "UNKNOWN"
                 },
                 {
                     "rect": [202, 128, 110, 50],
-                    "category": "pedestrian"
+                    "category": "PEDESTRIAN"
                 }
             ]
         },
@@ -44,15 +44,15 @@
             "objects":[
                 {
                     "rect": [234, 169, 110, 88],
-                    "category": "car"
+                    "category": "CAR"
                 },
                 {
                     "rect": [234, 162, 110, 88],
-                    "category": "unknown"
+                    "category": "UNKNOWN"
                 },
                 {
                     "rect": [202, 128, 110, 50],
-                    "category": "pedestrian"
+                    "category": "PEDESTRIAN"
                 }
             ]
         }

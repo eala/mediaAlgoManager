@@ -41,8 +41,17 @@
 #include <QApplication>
 #include "mainwindow.h"
 
+#include <QFile>
+#include <QString>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QList>
+
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
+
+#include "itsFrame.h"
+#include "itsobject.h"
 
 using namespace cv;
 
@@ -92,9 +101,39 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOrganizationName("HwangTaiChi");
     app.setApplicationName("OpenCV meets Qt");
+
+    // load json file
+    QFile loadFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+
+    // debug
+    // qDebug() << saveData;
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject jsonObject = loadDoc.object();
+
+    QJsonArray framesArray = jsonObject["frames"].toArray();
+
+    QList<itsFrame> itsFrameArray;
+    for(int i=0; i< framesArray.size(); ++i){
+        itsFrame itsframe;
+        itsframe.read(framesArray[i].toObject());
+        itsFrameArray.push_back(itsframe);
+    }
+
     MainWindow mainWin;
     mainWin.show();
+
     CApp::readVideo("/Users/hank/allProjects/install/its_env/0815-7.avi");
+
+
+
     return app.exec();
 }
 

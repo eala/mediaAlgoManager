@@ -1,6 +1,7 @@
 QT += widgets
 
 CONFIG -= app_bundle
+TEMPLATE = app
 
 #INCLUDEPATH += src/3rdparty/opencv/include
 #LIBS += -L"$$_PRO_FILE_PWD_/src/3rdparty/opencv/lib/" \
@@ -23,10 +24,16 @@ unix{
 # fixme later: 1. add install to bin 
 SOURCES += \
     src/lib/main.cpp \
-    src/lib/mainwindow.cpp
+    src/lib/mainwindow.cpp \
+    src/lib/annotation.cpp \
+    src/lib/itsobject.cpp \
+    src/lib/itsFrame.cpp
 
 HEADERS += \
-    src/lib/mainwindow.h
+    src/lib/mainwindow.h \
+    src/lib/annotation.h \
+    src/lib/itsobject.h \
+    src/lib/itsFrame.h
 
 RESOURCES += \
     mediaalgomanager.qrc
