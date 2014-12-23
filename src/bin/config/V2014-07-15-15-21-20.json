@@ -1,0 +1,60 @@
+{
+    "file": {
+        "name": "V2014-07-15-15-21-20.avi",
+        "type": "video",
+        "version": 1,
+        "createTime": "",
+        "lastUpdate": ""
+    },
+    "scene":{
+        "keywords": ["elead", "curveRoad"], 
+        "location": ["hsinchu", "taipei"],
+        "camera":{
+            "vendor": "elead"
+        },
+        "time": "",
+        "weather": "sunny"
+    },
+    "categories":[
+        "car",
+        "pedestrian",
+        "lane",
+        "unknown"
+        ],
+    "frames":[
+        {
+            "frameIdx": 1,
+            "objects":[
+                {
+                    "rect": [234, 169, 110, 88],
+                    "category": "car"
+                },
+                {
+                    "rect": [234, 162, 110, 88],
+                    "category": "unknown"
+                },
+                {
+                    "rect": [202, 128, 110, 50],
+                    "category": "pedestrian"
+                }
+            ]
+        },
+        {
+            "frameIdx": 20,
+            "objects":[
+                {
+                    "rect": [234, 169, 110, 88],
+                    "category": "car"
+                },
+                {
+                    "rect": [234, 162, 110, 88],
+                    "category": "unknown"
+                },
+                {
+                    "rect": [202, 128, 110, 50],
+                    "category": "pedestrian"
+                }
+            ]
+        }
+    ]
+}
