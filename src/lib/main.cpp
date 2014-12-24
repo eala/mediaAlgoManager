@@ -52,6 +52,7 @@
 
 #include "itsFrame.h"
 #include "itsobject.h"
+#include "itsgolden.h"
 
 using namespace cv;
 
@@ -116,23 +117,22 @@ int main(int argc, char *argv[])
     // qDebug() << saveData;
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    QJsonObject jsonObject = loadDoc.object();
 
-    QJsonArray framesArray = jsonObject["frames"].toArray();
+    QJsonObject goldenJson = loadDoc.object();
+    itsGolden golden;
+    golden.read(goldenJson);
 
-    QList<itsFrame> itsFrameArray;
-    for(int i=0; i< framesArray.size(); ++i){
-        itsFrame itsframe;
-        itsframe.read(framesArray[i].toObject());
-        itsFrameArray.push_back(itsframe);
-    }
+    qDebug() << golden.getMediaType();
+
+
+
+    //golden.setFileName("/Users/hank/allProjects/install/its_env/0815-7.avi");
+    CApp::readVideo(golden.getFileName().toUtf8().constData());
 
     MainWindow mainWin;
     mainWin.show();
 
-    CApp::readVideo("/Users/hank/allProjects/install/its_env/0815-7.avi");
-
-
+    //CApp::readVideo("/Users/hank/allProjects/install/its_env/0815-7.avi");
 
     return app.exec();
 }

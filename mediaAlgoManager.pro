@@ -25,15 +25,17 @@ unix{
 SOURCES += \
     src/lib/main.cpp \
     src/lib/mainwindow.cpp \
-    src/lib/annotation.cpp \
     src/lib/itsobject.cpp \
-    src/lib/itsFrame.cpp
+    src/lib/itsFrame.cpp \
+    src/lib/itsgolden.cpp \
+    src/lib/itsfileinfo.cpp
 
 HEADERS += \
     src/lib/mainwindow.h \
-    src/lib/annotation.h \
     src/lib/itsobject.h \
-    src/lib/itsFrame.h
+    src/lib/itsFrame.h \
+    src/lib/itsgolden.h \
+    src/lib/itsfileinfo.h
 
 RESOURCES += \
     mediaalgomanager.qrc
@@ -42,7 +44,3 @@ RESOURCES += \
 # resource_files.files += $$_PRO_FILE_PWD_/src/bin/images/copy.png
 # resource_files.path = $${DESTDIR}/images
 # INSTALLS += resource_files
-
-RESOURCES += \
-    mediaalgomanager.qrc
-
