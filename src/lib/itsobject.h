@@ -10,7 +10,7 @@ using namespace cv;
 // allowed categories
 
 enum CATEGORIES{
-    CAR=0,
+    CAR=1,
     PEDESTRIAN,
     LANE,
     UNKNOWN
@@ -23,14 +23,18 @@ public:
     itsObject(const Rect &rect, CATEGORIES category);
     ~itsObject();
 
-    Rect getObject() const;
-    CATEGORIES getCategory() const;
+    CATEGORIES parseCategory(const QString &str);
+    Rect &getObject();
+    CATEGORIES getCategory();
 
     void setObject(const Rect &rect);
     void setCategory(const CATEGORIES &category);
 
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
+
+    double evaluate(itsObject &otherObject);
+    // double evaluate(const itsObject &otherObject, CATEGORIES categ);
 
 private:
     Rect mObject;

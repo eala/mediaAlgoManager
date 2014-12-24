@@ -16,14 +16,6 @@ void itsFileInfo::read(const QJsonObject &json){
     mVersion = json["version"].toString();
     mCreateTime = json["createTime"].toString();
     mLastUpdate = json["lastUpdate"].toString();
-
-    /*
-    qDebug() << mFileName;
-    qDebug() << mType;
-    qDebug() << mVersion;
-    qDebug() << mCreateTime;
-    qDebug() << mLastUpdate;
-    */
 }
 
 void itsFileInfo::write(QJsonObject &json) const{

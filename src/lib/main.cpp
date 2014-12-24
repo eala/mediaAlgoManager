@@ -103,31 +103,15 @@ int main(int argc, char *argv[])
     app.setOrganizationName("HwangTaiChi");
     app.setApplicationName("OpenCV meets Qt");
 
-    // load json file
-    QFile loadFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
 
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file.");
-        return false;
-    }
+    itsGolden compareGolden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20-2.json"));
 
-    QByteArray saveData = loadFile.readAll();
-
-    // debug
-    // qDebug() << saveData;
-
-    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-
-    QJsonObject goldenJson = loadDoc.object();
-    itsGolden golden;
-    golden.read(goldenJson);
-
-    qDebug() << golden.getMediaType();
-
-
+    double compareScore = golden.evaluate(compareGolden, CAR);
+    qDebug() << "score" << compareScore << endl;
 
     //golden.setFileName("/Users/hank/allProjects/install/its_env/0815-7.avi");
-    CApp::readVideo(golden.getFileName().toUtf8().constData());
+    //CApp::readVideo(golden.getFileName().toUtf8().constData());
 
     MainWindow mainWin;
     mainWin.show();

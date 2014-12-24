@@ -14,6 +14,11 @@ public:
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
+    int getIndex(){return mIndex;}
+    QList<itsObject> &getCandidates() {return mCandidates;}
+
+    double evaluate(itsFrame &otherFrame, const CATEGORIES &categ);
+
 private:
     int mIndex;
     QList<itsObject> mCandidates;

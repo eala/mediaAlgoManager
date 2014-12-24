@@ -32,3 +32,20 @@ void itsFrame::write(QJsonObject &json) const{
         jsonCandidates.append(jsonCandidate);
     }
 }
+
+double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
+    QList<itsObject> otherCandidates = otherFrame.getCandidates();
+
+    double score(0.0);
+    for(int i=0; i< mCandidates.size(); ++i){
+        if(mCandidates[i].getCategory() == categ){
+            for(int j=0; j<otherCandidates.size(); ++j){
+                if(otherCandidates[j].getCategory() == categ){
+                    score += mCandidates[i].evaluate(otherCandidates[j]);
+                }
+            }
+        }
+    }
+    qDebug() << "frame score: " << score << endl;
+    return score;
+}
