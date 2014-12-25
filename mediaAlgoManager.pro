@@ -28,14 +28,16 @@ SOURCES += \
     src/lib/itsobject.cpp \
     src/lib/itsFrame.cpp \
     src/lib/itsgolden.cpp \
-    src/lib/itsfileinfo.cpp
+    src/lib/itsfileinfo.cpp \
+    src/lib/citsapp.cpp
 
 HEADERS += \
     src/lib/mainwindow.h \
     src/lib/itsobject.h \
     src/lib/itsFrame.h \
     src/lib/itsgolden.h \
-    src/lib/itsfileinfo.h
+    src/lib/itsfileinfo.h \
+    src/lib/citsapp.h
 
 RESOURCES += \
     mediaalgomanager.qrc

@@ -61,8 +61,8 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
-    void newFile();
-    void open();
+    void openTestFile();
+    void openGoldenFile();
     bool save();
     bool saveAs();
     void about();
@@ -89,7 +89,7 @@ private:
     QMenu *helpMenu;
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
-    QAction *newAct;
+    QAction *openTestAct;
     QAction *openAct;
     QAction *saveAct;
     QAction *saveAsAct;

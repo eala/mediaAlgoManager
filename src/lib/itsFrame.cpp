@@ -1,8 +1,8 @@
 #include "itsFrame.h"
 
-itsFrame::itsFrame()
+itsFrame::itsFrame(): mIndex(0)
 {
-
+    mCandidates.clear();
 }
 
 itsFrame::~itsFrame()
@@ -22,10 +22,10 @@ void itsFrame::read(const QJsonObject &json){
     }
 }
 
-void itsFrame::write(QJsonObject &json) const{
+void itsFrame::write(QJsonObject &json) {
     json["frameIdx"] = mIndex;
     QJsonArray jsonCandidates = json["objects"].toArray();
-    for(int i=0; i<mCandidates.size(); ++i){
+    for(size_t i=0; i<mCandidates.size(); ++i){
         QJsonObject jsonCandidate;
         itsObject itsObj = mCandidates[i];
         itsObj.write(jsonCandidate);
@@ -33,14 +33,14 @@ void itsFrame::write(QJsonObject &json) const{
     }
 }
 
-double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
-    QList<itsObject> otherCandidates = otherFrame.getCandidates();
+double itsFrame::evaluate(itsFrame &otherFrame,  CATEGORIES &categ){
+    vector<itsObject> otherCandidates = otherFrame.getCandidates();
 
     double score(0.0);
-    for(int i=0; i< mCandidates.size(); ++i){
-        if(mCandidates[i].getCategory() == categ){
-            for(int j=0; j<otherCandidates.size(); ++j){
-                if(otherCandidates[j].getCategory() == categ){
+    for(size_t i=0; i< mCandidates.size(); ++i){
+        if(categ == mCandidates[i].getCategory()){
+            for(size_t j=0; j<otherCandidates.size(); ++j){
+                if(categ == otherCandidates[j].getCategory()){
                     score += mCandidates[i].evaluate(otherCandidates[j]);
                 }
             }
@@ -49,3 +49,15 @@ double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
     qDebug() << "frame score: " << score << endl;
     return score;
 }
+
+#if 0
+void itsFrame::deleteObjects( CATEGORIES &categ){
+    // not working
+    for(int i = mCandidates.size()-1; i>0 ; i--){
+        if(categ == mCandidates[i].getCategory()){
+            mCandidates.removeAt(i);
+            qDebug() << "candidate " << i << ", category: " << mCandidates[i].getCategory() << endl;
+        }
+    }
+}
+#endif

@@ -45,7 +45,7 @@
 #include <QString>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QList>
+#include <vector>
 
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
@@ -54,46 +54,9 @@
 #include "itsobject.h"
 #include "itsgolden.h"
 
+#include "citsapp.h"
+
 using namespace cv;
-
-class CApp{
-public:
-    static int readImage(const string &fileName);
-    static int readVideo(const string &fileName);
-};
-
-int CApp::readImage(const string &fileName){
-    Mat image = imread(fileName);
-    if(image.rows > 0){
-        imshow("My Image", image);
-        return 0;
-    }else{
-        return -1;
-    }
-}
-
-// failed, fixme later
-// error message: GStreamer: Error opening bin: Unrecoverable syntax error while parsing pipeline
-int CApp::readVideo(const string &fileName){
-    VideoCapture capture(fileName);
-    if(!capture.isOpened()){
-        throw "Erro when reading video\n";
-        return -1;
-    }
-
-    Mat frame;
-    const string windowName("demo video");
-    namedWindow(windowName);
-    for(;;){
-        capture >> frame;
-        if(frame.empty()) break;
-        imshow(windowName, frame);
-        char key=waitKey(20);
-        if('Q' == key || 'q' == key) break;
-    }
-    destroyAllWindows();
-    return 0;
-}
 
 int main(int argc, char *argv[])
 {
@@ -103,20 +66,35 @@ int main(int argc, char *argv[])
     app.setOrganizationName("HwangTaiChi");
     app.setApplicationName("OpenCV meets Qt");
 
+    #if MODIFY_JSON_VALUE
     itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    golden.deleteObjects(CAR);
+    #endif
 
+    #if EVALUATE_GOLDEN_DEMO
+    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
     itsGolden compareGolden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20-2.json"));
-
     double compareScore = golden.evaluate(compareGolden, CAR);
     qDebug() << "score" << compareScore << endl;
+    #endif
 
-    //golden.setFileName("/Users/hank/allProjects/install/its_env/0815-7.avi");
-    //CApp::readVideo(golden.getFileName().toUtf8().constData());
+    #if READ_VIDEO_DEMO
+    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    CItsApp itsApp(golden.getFileName());
+    itsApp.readVideo();
+    #endif
+
+    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    CItsApp itsApp(golden.getFileName());
+    int index=1;
+    itsApp.moveToFrame(index);
+    itsFrame itsframe = golden.getFrame(index);
+    itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
+
+    itsApp.showProcResult();
 
     MainWindow mainWin;
     mainWin.show();
-
-    //CApp::readVideo("/Users/hank/allProjects/install/its_env/0815-7.avi");
 
     return app.exec();
 }

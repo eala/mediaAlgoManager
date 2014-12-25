@@ -80,6 +80,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //! [4]
 
 //! [5]
+#if 0
 void MainWindow::newFile()
 //! [5] //! [6]
 {
@@ -88,16 +89,26 @@ void MainWindow::newFile()
         setCurrentFile("");
     }
 }
+#endif
+
+void MainWindow::openTestFile()
+{
+    // fixme later for saving protection
+    QString testFileName = QFileDialog::getOpenFileName(this);
+    if(!testFileName.isEmpty()) loadFile(testFileName);
+}
+
 //! [6]
 
 //! [7]
-void MainWindow::open()
+//void MainWindow::open()
+void MainWindow::openGoldenFile()
 //! [7] //! [8]
 {
     if (maybeSave()) {
-        QString fileName = QFileDialog::getOpenFileName(this);
-        if (!fileName.isEmpty())
-            loadFile(fileName);
+        QString goldenFileName = QFileDialog::getOpenFileName(this);
+        if (!goldenFileName.isEmpty())
+            loadFile(goldenFileName);
     }
 }
 //! [8]
@@ -154,16 +165,16 @@ void MainWindow::documentWasModified()
 void MainWindow::createActions()
 //! [17] //! [18]
 {
-    newAct = new QAction(QIcon(":/src/bin/images/new.png"), tr("&New"), this);
-    newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
+    openTestAct = new QAction(QIcon(":/src/bin/images/open.png"), tr("&New Test file"), this);
+    openTestAct->setShortcuts(QKeySequence::New);
+    openTestAct->setStatusTip(tr("Open test file"));
+    connect(openTestAct, SIGNAL(triggered()), this, SLOT(openTestFile()));
 
 //! [19]
     openAct = new QAction(QIcon(":/src/bin/images/open.png"), tr("&Open..."), this);
     openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
-    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
+    openAct->setStatusTip(tr("Open golden file"));
+    connect(openAct, SIGNAL(triggered()), this, SLOT(openGoldenFile()));
 //! [18] //! [19]
 
     saveAct = new QAction(QIcon(":/src/bin/images/save.png"), tr("&Save"), this);
@@ -229,7 +240,7 @@ void MainWindow::createMenus()
 //! [25] //! [27]
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(newAct);
+    fileMenu->addAction(openTestAct);
 //! [28]
     fileMenu->addAction(openAct);
 //! [28]
@@ -256,7 +267,7 @@ void MainWindow::createMenus()
 void MainWindow::createToolBars()
 {
     fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction(newAct);
+    fileToolBar->addAction(openTestAct);
 //! [29] //! [31]
     fileToolBar->addAction(openAct);
 //! [31]

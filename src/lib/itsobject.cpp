@@ -24,12 +24,12 @@ itsObject::~itsObject()
 
 }
 
-itsObject::itsObject(const Rect &rect, CATEGORIES category){
+itsObject::itsObject( Rect &rect, CATEGORIES category){
     setObject(rect);
     setCategory(category);
 }
 
-Rect &itsObject::getObject(){
+Rect &itsObject::getObject() {
     return mObject;
 }
 
@@ -37,18 +37,16 @@ CATEGORIES itsObject::getCategory(){
     return mCategory;
 }
 
-void itsObject::setObject(const Rect &rect){
-    //memcpy(mObject, rect, sizeof(mObject));
+void itsObject::setObject( Rect &rect){
     mObject = rect;
 }
 
-void itsObject::setCategory(const CATEGORIES &category){
+void itsObject::setCategory( CATEGORIES &category){
     mCategory = category;
 }
 
-void itsObject::read(const QJsonObject &json){
+void itsObject::read( QJsonObject &json){
     QJsonArray rectArray = json["rect"].toArray();
-    //QJsonArray rectArray = json["rect"];
     assert(rectArray.size() == 4);
     mObject.x = rectArray[0].toInt();
     mObject.y = rectArray[1].toInt();
@@ -57,7 +55,7 @@ void itsObject::read(const QJsonObject &json){
     mCategory = parseCategory(json["category"].toString());
 }
 
-void itsObject::write(QJsonObject &json) const{
+void itsObject::write(QJsonObject &json) {
     QJsonArray rectArray;
     rectArray.append(mObject.x);
     rectArray.append(mObject.y);
@@ -68,10 +66,10 @@ void itsObject::write(QJsonObject &json) const{
 }
 
 // calculate rectangle overlapping -- intersection/union
-double itsObject::evaluate(itsObject &otherObject){
+double itsObject::evaluate( itsObject &otherObject){
     double score(0.0);
 
-    Rect otherObj = otherObject.getObject();
+     Rect otherObj = otherObject.getObject();
     if(mObject.width <= 0 || mObject.height <=0 ||
             otherObj.width <= 0 || otherObj.height <=0){
         return score;
@@ -92,4 +90,9 @@ double itsObject::evaluate(itsObject &otherObject){
         score = intersectArea / unionsectArea;
     }
     return score;
+}
+
+void itsObject::update( Rect &rect,  CATEGORIES &category){
+    setObject(rect);
+    setCategory(category);
 }

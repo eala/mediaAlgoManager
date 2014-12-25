@@ -12,16 +12,31 @@ public:
     ~itsFrame();
 
     void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void write(QJsonObject &json) ;
 
     int getIndex(){return mIndex;}
-    QList<itsObject> &getCandidates() {return mCandidates;}
+    vector<itsObject> &getCandidates() {return mCandidates;}
 
-    double evaluate(itsFrame &otherFrame, const CATEGORIES &categ);
+    double evaluate(itsFrame &otherFrame,  CATEGORIES &categ);
+
+    itsObject &getObject( Rect &rect);
+
+    itsFrame operator=(const itsFrame &frame){
+        mIndex = frame.mIndex;
+        mCandidates = frame.mCandidates;
+        return *this;
+    }
+
+    /*
+    void addObject( itsObject &object);
+    void updateObject(itsObject &object);
+    void deleteObjects( CATEGORIES &categ);
+    void clearObjects(){mCandidates.clear();}
+    */
 
 private:
     int mIndex;
-    QList<itsObject> mCandidates;
+    vector<itsObject> mCandidates;
 };
 
 #endif // FRAME_H

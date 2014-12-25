@@ -13,33 +13,38 @@ class itsGolden
 {
 public:
     //itsGolden();
-    itsGolden(const QString &fileName);
+    itsGolden( const QString &fileName);
     ~itsGolden();
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read( QJsonObject &json);
+    void write(QJsonObject &json) ;
 
     // getter & setter
-    QList<int> &getFrameIndices() {return mFrameIndices;}
-    QList<itsFrame> &getFrames() {return mFrames;}
+
+    vector<int> &getFrameIndices() {return mFrameIndices;}
+    vector<itsFrame> &getFrames() {return mFrames;}
+    itsFrame &getFrame(int frameIdx);
 
     // File related
-    QString getMediaType(){return mFileInfo.getMediaType();}
-    QString getFileName(){return mFileInfo.getFileName();}
-    void setFileName(const QString &fileName){ mFileInfo.setFileName(fileName);}
+    string getMediaType(){return mFileInfo.getMediaType();}
+    string getFileName() const{return mFileInfo.getFileName();}
+    void setFileName( const string &fileName){ mFileInfo.setFileName(fileName);}
 
     // support CRUD operations
     // Update
-    void updateFrame(const itsObject &itsObj);
+    void updateFrame(int frameIdx,  Rect &rect,  CATEGORIES &categ);
+
+    // Delete
+    void deleteObjects( CATEGORIES &categ);
 
     // comparison
-    double evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ);
+    double evaluate(itsGolden &otherItsGolden,  CATEGORIES &categ);
 
 private:
+    QJsonObject mJson;
     itsFileInfo mFileInfo;
-    QList<int> mFrameIndices;
-    QList<itsFrame> mFrames;
-
+    vector<int> mFrameIndices;
+    vector<itsFrame> mFrames;
 };
 
 #endif // ITSGOLDEN_H

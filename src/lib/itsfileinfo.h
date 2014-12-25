@@ -13,20 +13,19 @@ public:
     ~itsFileInfo();
 
     void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void write(QJsonObject &json) ;
 
-    QString getMediaType(){return mType;}
-    QString getFileName(){return mFileName;}
+    string getMediaType(){ return mType;}
+    string getFileName() const{return mFileName;}
 
-    void setFileName(const QString &fileName){ mFileName = fileName;}
-
+    void setFileName(const string &fileName){ mFileName = fileName;}
 
 private:
-    QString mFileName;
-    QString mType;
-    QString mVersion;
-    QString mCreateTime;
-    QString mLastUpdate;
+    string mFileName;
+    string mType;
+    string mVersion;
+    string mCreateTime;
+    string mLastUpdate;
 };
 
 #endif // ITSFILEINFO_H

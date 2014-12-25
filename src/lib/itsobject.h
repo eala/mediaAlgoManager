@@ -20,21 +20,23 @@ class itsObject
 {
 public:
     itsObject();
-    itsObject(const Rect &rect, CATEGORIES category);
+    itsObject(Rect &rect, CATEGORIES category);
     ~itsObject();
 
     CATEGORIES parseCategory(const QString &str);
     Rect &getObject();
     CATEGORIES getCategory();
 
-    void setObject(const Rect &rect);
-    void setCategory(const CATEGORIES &category);
+    void setObject(Rect &rect);
+    void setCategory(CATEGORIES &category);
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read(QJsonObject &json);
+    void write(QJsonObject &json);
+
+    void update(Rect &rect, CATEGORIES &category);
 
     double evaluate(itsObject &otherObject);
-    // double evaluate(const itsObject &otherObject, CATEGORIES categ);
+    // double evaluate( itsObject &otherObject, CATEGORIES categ);
 
 private:
     Rect mObject;
