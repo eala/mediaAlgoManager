@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     itsApp.readVideo();
     #endif
 
+    #if DRAW_OBJECTS_IN_VIDEO_DEMO
     itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
     CItsApp itsApp(golden.getFileName());
     int index=1;
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
     itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
 
     itsApp.showProcResult();
+    #endif
 
     MainWindow mainWin;
     mainWin.show();

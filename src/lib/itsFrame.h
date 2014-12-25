@@ -17,7 +17,7 @@ public:
     int getIndex(){return mIndex;}
     vector<itsObject> &getCandidates() {return mCandidates;}
 
-    double evaluate(itsFrame &otherFrame,  CATEGORIES &categ);
+    double evaluate(itsFrame &otherFrame, const CATEGORIES &categ);
 
     itsObject &getObject( Rect &rect);
 

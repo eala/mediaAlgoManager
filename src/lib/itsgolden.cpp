@@ -51,7 +51,7 @@ void itsGolden::write(QJsonObject &json) {
     }
 }
 
-double itsGolden::evaluate(itsGolden &otherItsGolden,  CATEGORIES &categ){
+double itsGolden::evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ){
     // fixme later, fill two golden files with union frame counts
     assert(mFrames.size() == mFrameIndices.size());
     vector<itsFrame> otherFrames = otherItsGolden.getFrames();

@@ -38,7 +38,7 @@ public:
     void deleteObjects( CATEGORIES &categ);
 
     // comparison
-    double evaluate(itsGolden &otherItsGolden,  CATEGORIES &categ);
+    double evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ);
 
 private:
     QJsonObject mJson;

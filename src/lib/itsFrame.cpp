@@ -33,7 +33,7 @@ void itsFrame::write(QJsonObject &json) {
     }
 }
 
-double itsFrame::evaluate(itsFrame &otherFrame,  CATEGORIES &categ){
+double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
     vector<itsObject> otherCandidates = otherFrame.getCandidates();
 
     double score(0.0);
@@ -46,7 +46,7 @@ double itsFrame::evaluate(itsFrame &otherFrame,  CATEGORIES &categ){
             }
         }
     }
-    qDebug() << "frame score: " << score << endl;
+    qDebug() << "frame " << mIndex << " score: " << score << endl;
     return score;
 }
 
