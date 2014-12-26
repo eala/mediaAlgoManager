@@ -1,4 +1,4 @@
-QT += widgets 
+QT += widgets testlib
 
 CONFIG -= app_bundle
 TEMPLATE = app
@@ -21,8 +21,8 @@ unix{
 #Win32{
 #}
 #
+# fixme later: 1. add install to bin 
 
 include(mediaAlgoManagerLib.pri)
-
 SOURCES += \
-    src/lib/main.cpp
+    test/tester.cpp
