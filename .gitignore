@@ -32,3 +32,6 @@
 
 # user toolchain configuration
 *.pro.user
+
+# large resources
+*.avi

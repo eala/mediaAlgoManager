@@ -1,0 +1,60 @@
+{
+    "file": {
+        "name": "/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.avi",
+        "type": "video",
+        "version": 1,
+        "createTime": "",
+        "lastUpdate": ""
+    },
+    "scene":{
+        "keywords": ["elead", "curveRoad"], 
+        "location": ["hsinchu", "taipei"],
+        "camera":{
+            "vendor": "elead"
+        },
+        "time": "",
+        "weather": "sunny"
+    },
+    "categories":[
+        "CAR",
+        "PEDESTRIAN",
+        "LANE",
+        "UNKNOWN"
+        ],
+    "frames":[
+        {
+            "frameIdx": 1,
+            "objects":[
+                {
+                    "rect": [234, 169, 110, 88],
+                    "category": "CAR"
+                },
+                {
+                    "rect": [234, 162, 110, 88],
+                    "category": "UNKNOWN"
+                },
+                {
+                    "rect": [202, 128, 110, 50],
+                    "category": "PEDESTRIAN"
+                }
+            ]
+        },
+        {
+            "frameIdx": 20,
+            "objects":[
+                {
+                    "rect": [234, 169, 110, 88],
+                    "category": "CAR"
+                },
+                {
+                    "rect": [234, 162, 110, 88],
+                    "category": "UNKNOWN"
+                },
+                {
+                    "rect": [202, 128, 110, 50],
+                    "category": "PEDESTRIAN"
+                }
+            ]
+        }
+    ]
+}

@@ -28,3 +28,9 @@ RESOURCES += \
 
 FORMS += \
     src/lib/analyzegoldenwindow.ui
+
+install_bin.path = $$OUT_PWD
+install_bin.files = src/bin/*
+
+INSTALLS += \
+    install_bin
