@@ -29,7 +29,8 @@ SOURCES += \
     src/lib/itsFrame.cpp \
     src/lib/itsgolden.cpp \
     src/lib/itsfileinfo.cpp \
-    src/lib/citsapp.cpp
+    src/lib/citsapp.cpp \
+    src/lib/analyzegoldenwindow.cpp
 
 HEADERS += \
     src/lib/mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     src/lib/itsFrame.h \
     src/lib/itsgolden.h \
     src/lib/itsfileinfo.h \
-    src/lib/citsapp.h
+    src/lib/citsapp.h \
+    src/lib/analyzegoldenwindow.h
 
 RESOURCES += \
     mediaalgomanager.qrc
@@ -46,3 +48,6 @@ RESOURCES += \
 # resource_files.files += $$_PRO_FILE_PWD_/src/bin/images/copy.png
 # resource_files.path = $${DESTDIR}/images
 # INSTALLS += resource_files
+
+FORMS += \
+    src/lib/analyzegoldenwindow.ui

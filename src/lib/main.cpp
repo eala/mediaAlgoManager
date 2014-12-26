@@ -39,7 +39,13 @@
 ****************************************************************************/
 
 #include <QApplication>
+
+#define USE_CUSTOM_VIEW 1
+#if USE_CUSTOM_VIEW
+#include "analyzegoldenwindow.h"
+#else
 #include "mainwindow.h"
+#endif
 
 #include <QFile>
 #include <QString>
@@ -109,8 +115,13 @@ int main(int argc, char *argv[])
     qDebug() << "score" << itsApp.evaluate(CAR) << endl;
     #endif
 
+#if USE_CUSTOM_VIEW
+    analyzeGoldenWindow goldenWindow;
+    goldenWindow.show();
+#else
     MainWindow mainWin;
     mainWin.show();
+#endif
 
     return app.exec();
 }
