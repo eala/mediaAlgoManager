@@ -12,6 +12,21 @@ CItsApp::CItsApp(const string &fileName) :mTestIts(NULL), mGoldenIts(NULL)
     mCapture.open(mMediaFileName);
 }
 
+CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts){
+    //qDebug() << "testIts media file: " << QString::fromStdString(testIts.getFileName());
+    //qDebug() << "goldenIts media file: " << QString::fromStdString(goldenIts.getFileName());
+
+    // check same video
+    if(0 != testIts.getFileName().compare(goldenIts.getFileName())){
+        qDebug() << "media files for test file & golden file are different\n";
+    }else{
+        *this = CItsApp(testIts.getFileName());
+        mTestIts = &testIts;
+        mGoldenIts = &goldenIts;
+        mState = READY;
+    }
+}
+
 CItsApp::~CItsApp()
 {
     if(mCapture.isOpened()){
@@ -75,4 +90,13 @@ int CItsApp::readVideo(){
         destroyAllWindows();
     }
     return 0;
+}
+
+double CItsApp::evaluate(const CATEGORIES &categ){
+    if(READY == mState){
+        return mTestIts->evaluate(*mGoldenIts, categ);
+    }else{
+        qDebug() << "CItsApp does not contain test file & golden file information" << endl;
+        return -1;
+    }
 }

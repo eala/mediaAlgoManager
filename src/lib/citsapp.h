@@ -20,6 +20,7 @@ public:
     };
 
     CItsApp(const string &fileName);
+    CItsApp(itsGolden &testIts, itsGolden &goldenIts);
     ~CItsApp();
 
     int readImage( string &fileName);
@@ -32,6 +33,7 @@ public:
     void setTestIts(itsGolden *testIts){ mTestIts = testIts;}
     void setGoldenIts(itsGolden *goldenIts){ mGoldenIts = goldenIts;}
 
+    double evaluate(const CATEGORIES &categ);
     void showProcResult();
 private:
     CItsApp();  // do not allow implicit initilization

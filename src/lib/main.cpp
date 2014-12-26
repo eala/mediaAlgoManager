@@ -58,6 +58,13 @@
 
 using namespace cv;
 
+// fixme later, the following all should write as a Test
+#define MODIFY_JSON_VALUE 0
+#define EVALUATE_GOLDEN_DEMO 0
+#define READ_VIDEO_DEMO 0
+#define DRAW_OBJECTS_IN_VIDEO_DEMO 0
+#define EVALUATE_TEST_AND_GOLDEN_DEMO 0
+
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(mediaalgomanager);
@@ -93,6 +100,13 @@ int main(int argc, char *argv[])
     itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
 
     itsApp.showProcResult();
+    #endif
+
+    #if EVALUATE_TEST_AND_GOLDEN_DEMO
+    itsGolden testFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    itsGolden goldenFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20-2.json"));
+    CItsApp itsApp(testFile, goldenFile);
+    qDebug() << "score" << itsApp.evaluate(CAR) << endl;
     #endif
 
     MainWindow mainWin;
