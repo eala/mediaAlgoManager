@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 
+#include<opencv2/core/core.hpp>
+#include<opencv2/highgui/highgui.hpp>
+#include "citsapp.h"
+
 namespace Ui {
 class analyzeGoldenWindow;
 }
@@ -17,6 +21,7 @@ public:
 
 private:
     Ui::analyzeGoldenWindow *ui;
+    CItsApp *mApp;
 };
 
 #endif // ANALYZEGOLDENWINDOW_H

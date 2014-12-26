@@ -40,7 +40,14 @@
 
 #include <QApplication>
 
+// fixme later, the following all should write as a Test
+#define MODIFY_JSON_VALUE 0
+#define EVALUATE_GOLDEN_DEMO 0
+#define READ_VIDEO_DEMO 0
+#define DRAW_OBJECTS_IN_VIDEO_DEMO 0
+#define EVALUATE_TEST_AND_GOLDEN_DEMO 0
 #define USE_CUSTOM_VIEW 1
+
 #if USE_CUSTOM_VIEW
 #include "analyzegoldenwindow.h"
 #else
@@ -63,13 +70,6 @@
 #include "citsapp.h"
 
 using namespace cv;
-
-// fixme later, the following all should write as a Test
-#define MODIFY_JSON_VALUE 0
-#define EVALUATE_GOLDEN_DEMO 0
-#define READ_VIDEO_DEMO 0
-#define DRAW_OBJECTS_IN_VIDEO_DEMO 0
-#define EVALUATE_TEST_AND_GOLDEN_DEMO 0
 
 int main(int argc, char *argv[])
 {

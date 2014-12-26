@@ -23,6 +23,7 @@ unix{
 #
 # fixme later: 1. add install to bin 
 SOURCES += \
+    src/lib/MatToQImage.cpp \
     src/lib/main.cpp \
     src/lib/mainwindow.cpp \
     src/lib/itsobject.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
     src/lib/analyzegoldenwindow.cpp
 
 HEADERS += \
+    src/lib/MatToQImage.h \
     src/lib/mainwindow.h \
     src/lib/itsobject.h \
     src/lib/itsFrame.h \
