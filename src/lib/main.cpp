@@ -43,7 +43,7 @@
 // fixme later, the following all should write as a Test
 #define MODIFY_JSON_VALUE 0
 #define EVALUATE_GOLDEN_DEMO 0
-#define READ_VIDEO_DEMO 0
+#define READ_VIDEO_DEMO 1
 #define DRAW_OBJECTS_IN_VIDEO_DEMO 0
 #define EVALUATE_TEST_AND_GOLDEN_DEMO 0
 #define USE_CUSTOM_VIEW 1
@@ -80,25 +80,25 @@ int main(int argc, char *argv[])
     app.setApplicationName("OpenCV meets Qt");
 
     #if MODIFY_JSON_VALUE
-    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
     golden.deleteObjects(CAR);
     #endif
 
     #if EVALUATE_GOLDEN_DEMO
-    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
-    itsGolden compareGolden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20-2.json"));
+    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
+    itsGolden compareGolden(QStringLiteral("config/V2014-07-15-15-21-20-2.json"));
     double compareScore = golden.evaluate(compareGolden, CAR);
     qDebug() << "score" << compareScore << endl;
     #endif
 
     #if READ_VIDEO_DEMO
-    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
     CItsApp itsApp(golden.getFileName());
     itsApp.readVideo();
     #endif
 
     #if DRAW_OBJECTS_IN_VIDEO_DEMO
-    itsGolden golden(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
+    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
     CItsApp itsApp(golden.getFileName());
     int index=1;
     itsApp.moveToFrame(index);
@@ -109,8 +109,8 @@ int main(int argc, char *argv[])
     #endif
 
     #if EVALUATE_TEST_AND_GOLDEN_DEMO
-    itsGolden testFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20.json"));
-    itsGolden goldenFile(QStringLiteral("/Users/hank/allProjects/install/its_env/V2014-07-15-15-21-20-2.json"));
+    itsGolden testFile(QStringLiteral("config/V2014-07-15-15-21-20.json"));
+    itsGolden goldenFile(QStringLiteral("config/V2014-07-15-15-21-20-2.json"));
     CItsApp itsApp(testFile, goldenFile);
     qDebug() << "score" << itsApp.evaluate(CAR) << endl;
     #endif
