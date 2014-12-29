@@ -43,7 +43,7 @@
 // fixme later, the following all should write as a Test
 #define MODIFY_JSON_VALUE 0
 
-#define DRAW_OBJECTS_IN_VIDEO_DEMO 1
+#define DRAW_OBJECTS_IN_VIDEO_DEMO 0
 #define USE_CUSTOM_VIEW 1
 
 #if USE_CUSTOM_VIEW
@@ -57,6 +57,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <vector>
+#include <QSplashScreen>
 
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
@@ -94,9 +95,27 @@ int main(int argc, char *argv[])
     itsApp.showProcResult();
     #endif
 
+    QSplashScreen *splash = new QSplashScreen;
+    splash->setPixmap(QPixmap(":/src/bin/images/logo.png"));
+    splash->show();
+
+    Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
+    splash->showMessage(QObject::tr("Setting up the main window..."),
+                        topRight, Qt::white);
+
 #if USE_CUSTOM_VIEW
-    analyzeGoldenWindow goldenWindow;
-    goldenWindow.show();
+    //analyzeGoldenWindow goldenWindow;
+    //goldenWindow.show();
+    analyzeGoldenWindow *goldenWindow = new analyzeGoldenWindow;
+    splash->showMessage(QObject::tr("Loading modules..."),
+                        topRight, Qt::white);
+    //loadModules();
+    splash->showMessage(QObject::tr("Establishing connections..."),
+                        topRight, Qt::white);
+    //establishConnections;
+    goldenWindow->show();
+    splash->finish(goldenWindow);
+    delete splash;
 #else
     MainWindow mainWin;
     mainWin.show();

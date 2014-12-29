@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QMenuBar>
 
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
@@ -23,11 +24,19 @@ public:
 private:
     void loadItsObjects();
     void drawFrame(const int frameIdx);
+    void setActionMenuBar();
+
+private slots:
+    void newFile();
 
 private:
     Ui::analyzeGoldenWindow *ui;
     QStandardItemModel *mTestModel;
     CItsApp *mApp;
+
+    QMenuBar *mMenuBar;
+    QMenu *mFileMenu;
+    QAction *mNewFileAction;
 };
 
 #endif // ANALYZEGOLDENWINDOW_H

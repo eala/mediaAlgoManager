@@ -6,5 +6,6 @@
         <file>src/bin/images/open.png</file>
         <file>src/bin/images/paste.png</file>
         <file>src/bin/images/save.png</file>
+        <file>src/bin/images/logo.png</file>
     </qresource>
 </RCC>

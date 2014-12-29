@@ -28,13 +28,21 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     ui(new Ui::analyzeGoldenWindow),
     mApp(NULL)
 {
+    // release memory when window close
+    setAttribute(Qt::WA_DeleteOnClose);
+
+    // fixme later, add some readSettings() to restore as last time
     if(NULL == mApp){
         itsGolden testFile(QStringLiteral("config/V2014-07-15-15-21-20.json"));
         itsGolden goldenFile(QStringLiteral("config/V2014-07-15-15-21-20-2.json"));
         mApp = new CItsApp(testFile, goldenFile);
     }
 
+    setActionMenuBar();
+
     ui->setupUi(this);
+
+
 
     // notice!! you can't see ui->frameLabel before ui->setupUi(this);
     drawFrame(1);
@@ -43,6 +51,26 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     if(mApp && CItsApp::READY == mApp->getState()){
         loadItsObjects();
     }
+}
+
+void analyzeGoldenWindow::setActionMenuBar(){
+    mMenuBar = new QMenuBar(this);
+    mMenuBar->setNativeMenuBar(true);
+
+    mFileMenu = mMenuBar->addMenu(tr("&File"));
+    mNewFileAction = new QAction(tr("&New ..."), this);
+    mFileMenu->addAction(mNewFileAction);
+    connect(mNewFileAction, SIGNAL(triggered()), this, SLOT(newFile()));
+}
+
+analyzeGoldenWindow::~analyzeGoldenWindow()
+{
+    // fixme later, add like writeSettings() to store layout, e.g. use QSettings
+    if(mTestModel){
+        delete mTestModel;
+        mTestModel = NULL;
+    }
+    delete ui;
 }
 
 void analyzeGoldenWindow::drawFrame(const int frameIdx)
@@ -109,14 +137,13 @@ void analyzeGoldenWindow::loadItsObjects()
 
 }
 
-analyzeGoldenWindow::~analyzeGoldenWindow()
+void analyzeGoldenWindow::newFile()
 {
-    if(mTestModel){
-        delete mTestModel;
-        mTestModel = NULL;
-    }
-    delete ui;
+    analyzeGoldenWindow *newAnalyzeGoldenWin = new analyzeGoldenWindow;
+    newAnalyzeGoldenWin->show();
 }
+
+
 
 /*
 void analyzeGoldenWindow::setFrame(const cv::Mat &img){

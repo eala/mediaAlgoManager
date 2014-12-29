@@ -56,7 +56,7 @@
      <string>Frame</string>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="secondLayout">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -172,26 +172,8 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1920</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionChoose_test_file"/>
-    <addaction name="actionChoose_golden_file"/>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionChoose_test_file">
+  <action name="action">
    <property name="text">
     <string>choose test file</string>
    </property>
@@ -199,6 +181,16 @@
   <action name="actionChoose_golden_file">
    <property name="text">
     <string>choose golden file</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
    </property>
   </action>
  </widget>
