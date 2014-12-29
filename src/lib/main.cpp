@@ -87,8 +87,9 @@ int main(int argc, char *argv[])
     CItsApp itsApp(golden.getFileName());
     int index=1;
     itsApp.moveToFrame(index);
-    itsFrame itsframe = golden.getFrame(index);
-    itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
+    itsFrame itsframe;
+    int idx = golden.getFrame(index, itsframe);
+    if(-1!=idx) itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
 
     itsApp.showProcResult();
     #endif

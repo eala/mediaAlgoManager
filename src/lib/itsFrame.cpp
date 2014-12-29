@@ -50,6 +50,12 @@ double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
     return score;
 }
 
+itsFrame& itsFrame::operator=(const itsFrame &frame){
+    mIndex = frame.mIndex;
+    mCandidates = frame.mCandidates;
+    return *this;
+}
+
 #if 0
 void itsFrame::deleteObjects( CATEGORIES &categ){
     // not working

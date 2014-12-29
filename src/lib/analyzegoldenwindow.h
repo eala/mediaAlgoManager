@@ -21,6 +21,10 @@ public:
     ~analyzeGoldenWindow();
 
 private:
+    void loadItsObjects();
+    void drawFrame(const int frameIdx);
+
+private:
     Ui::analyzeGoldenWindow *ui;
     QStandardItemModel *mTestModel;
     CItsApp *mApp;

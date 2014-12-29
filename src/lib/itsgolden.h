@@ -24,7 +24,7 @@ public:
 
     vector<int> &getFrameIndices() {return mFrameIndices;}
     vector<itsFrame> &getFrames() {return mFrames;}
-    itsFrame &getFrame(int frameIdx);
+    int getFrame(int frameIdx, itsFrame &frame);
 
     // File related
     string getMediaType(){return mFileInfo.getMediaType();}

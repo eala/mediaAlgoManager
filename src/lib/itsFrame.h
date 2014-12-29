@@ -20,11 +20,7 @@ public:
 
     double evaluate(itsFrame &otherFrame, const CATEGORIES &categ);
 
-    itsFrame operator=(const itsFrame &frame){
-        mIndex = frame.mIndex;
-        mCandidates = frame.mCandidates;
-        return *this;
-    }
+    itsFrame& operator=(const itsFrame &frame);
 
     /*
     void addObject( itsObject &object);

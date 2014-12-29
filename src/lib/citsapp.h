@@ -35,6 +35,7 @@ public:
 
     itsGolden &getTestIts() {return mTestIts;}
     itsGolden &getGoldenIts() {return mGoldenIts;}
+    EVALUATE_STATE getState(){return mState;}
 
     vector<itsFrame> &getTestFrames() {return mTestIts.getFrames();}
     vector<itsFrame> &getGoldenFrames() {return mTestIts.getFrames();}

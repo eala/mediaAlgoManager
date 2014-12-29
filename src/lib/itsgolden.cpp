@@ -27,10 +27,15 @@ itsGolden::~itsGolden()
 
 }
 
-itsFrame &itsGolden::getFrame(int frameIdx){
+int itsGolden::getFrame(int frameIdx, itsFrame &frame){
+    int index=-1;
     vector<int>::iterator it;
     it = find (mFrameIndices.begin(), mFrameIndices.end(), frameIdx);
-    return mFrames[it-mFrameIndices.begin()];
+    if(it != mFrameIndices.end()){
+        index = it-mFrameIndices.begin();
+        frame = mFrames[index];
+    }
+    return index;
 }
 
 // store only existing objects

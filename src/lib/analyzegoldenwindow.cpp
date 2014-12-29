@@ -37,15 +37,37 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // notice!! you can't see ui->frameLabel before ui->setupUi(this);
-    const int index = 2000;
-    mApp->moveToFrame(index);
-    Mat drawFrame = mApp->getProcFrame();
-    //imshow("test", mApp->getProcFrame());
+    drawFrame(1);
 
-    if(drawFrame.rows > 0){
-        ui->frameLabel->setPixmap(QPixmap::fromImage(MatToQImage(drawFrame)));
+    // init test files
+    if(mApp && CItsApp::READY == mApp->getState()){
+        loadItsObjects();
     }
+}
 
+void analyzeGoldenWindow::drawFrame(const int frameIdx)
+{
+    if(mApp){
+        mApp->moveToFrame(frameIdx);
+        Mat drawFrame = mApp->getProcFrame();
+
+        // draw test & golden rectangles
+        itsFrame testDatas;
+        int testIdx = mApp->getTestIts().getFrame(frameIdx, testDatas);
+        if(-1!=testIdx){
+            mApp->displayItsFrame(drawFrame, &testDatas, Scalar(255, 0, 0));
+        }
+        itsFrame goldenDatas;
+        int goldenIdx = mApp->getGoldenIts().getFrame(frameIdx, goldenDatas);
+        if(-1!=goldenIdx){
+            mApp->displayItsFrame(drawFrame, &goldenDatas, Scalar(0, 0, 255));
+        }
+        if(drawFrame.rows > 0) ui->frameLabel->setPixmap(QPixmap::fromImage(MatToQImage(drawFrame)));
+    }
+}
+
+void analyzeGoldenWindow::loadItsObjects()
+{
     const int rowCount = 10;
     mTestModel = new QStandardItemModel(rowCount, CANDIDATE_CATEGORY, this);
 
@@ -57,7 +79,6 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     mTestModel->setHorizontalHeaderItem(CANDIDATE_HEIGHT, new QStandardItem(QString(columnName[CANDIDATE_HEIGHT])));
     mTestModel->setHorizontalHeaderItem(CANDIDATE_CATEGORY, new QStandardItem(QString(columnName[CANDIDATE_CATEGORY])));
 
-   // ui->candidateTableView->setModel(mTestModel);
     vector<itsFrame> testFrames = mApp->getTestFrames();
     static int rowIdx = 0;
 
@@ -85,6 +106,7 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     }
 
     ui->candidateTableView->setModel(mTestModel);
+
 }
 
 analyzeGoldenWindow::~analyzeGoldenWindow()
