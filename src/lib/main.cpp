@@ -42,10 +42,8 @@
 
 // fixme later, the following all should write as a Test
 #define MODIFY_JSON_VALUE 0
-#define EVALUATE_GOLDEN_DEMO 0
-#define READ_VIDEO_DEMO 1
-#define DRAW_OBJECTS_IN_VIDEO_DEMO 0
-#define EVALUATE_TEST_AND_GOLDEN_DEMO 0
+
+#define DRAW_OBJECTS_IN_VIDEO_DEMO 1
 #define USE_CUSTOM_VIEW 1
 
 #if USE_CUSTOM_VIEW
@@ -84,19 +82,6 @@ int main(int argc, char *argv[])
     golden.deleteObjects(CAR);
     #endif
 
-    #if EVALUATE_GOLDEN_DEMO
-    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
-    itsGolden compareGolden(QStringLiteral("config/V2014-07-15-15-21-20-2.json"));
-    double compareScore = golden.evaluate(compareGolden, CAR);
-    qDebug() << "score" << compareScore << endl;
-    #endif
-
-    #if READ_VIDEO_DEMO
-    itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
-    CItsApp itsApp(golden.getFileName());
-    itsApp.readVideo();
-    #endif
-
     #if DRAW_OBJECTS_IN_VIDEO_DEMO
     itsGolden golden(QStringLiteral("config/V2014-07-15-15-21-20.json"));
     CItsApp itsApp(golden.getFileName());
@@ -106,13 +91,6 @@ int main(int argc, char *argv[])
     itsApp.displayItsFrame(itsApp.getProcFrame(), &itsframe, Scalar(255, 0, 0));
 
     itsApp.showProcResult();
-    #endif
-
-    #if EVALUATE_TEST_AND_GOLDEN_DEMO
-    itsGolden testFile(QStringLiteral("config/V2014-07-15-15-21-20.json"));
-    itsGolden goldenFile(QStringLiteral("config/V2014-07-15-15-21-20-2.json"));
-    CItsApp itsApp(testFile, goldenFile);
-    qDebug() << "score" << itsApp.evaluate(CAR) << endl;
     #endif
 
 #if USE_CUSTOM_VIEW

@@ -46,7 +46,7 @@ double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
             }
         }
     }
-    qDebug() << "frame " << mIndex << " score: " << score << endl;
+    qDebug() << "frame " << mIndex << " score: " << score;
     return score;
 }
 

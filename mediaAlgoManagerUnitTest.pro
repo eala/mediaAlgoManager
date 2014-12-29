@@ -23,6 +23,8 @@ unix{
 #
 # fixme later: 1. add install to bin 
 
+INCLUDEPATH += src/lib
 include(mediaAlgoManagerLib.pri)
+
 SOURCES += \
     test/tester.cpp
