@@ -101,7 +101,9 @@ void Tester::evaluateGolden()
 void Tester::evaluateGoldenByItsApp()
 {
     double score = mItsApp->evaluate(CAR);
-    QVERIFY(score != 3.0);
+    qDebug() << "score: " << score;
+    QCOMPARE(score, 2.0);
+    //QVERIFY(score != 3.0);
 }
 
 QTEST_MAIN(Tester)

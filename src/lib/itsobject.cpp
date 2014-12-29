@@ -37,6 +37,10 @@ CATEGORIES itsObject::getCategory(){
     return mCategory;
 }
 
+std::string itsObject::getCategoryName(){
+    return CATEGORY_NAMES[mCategory];
+}
+
 void itsObject::setObject( Rect &rect){
     mObject = rect;
 }

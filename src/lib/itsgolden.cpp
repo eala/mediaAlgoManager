@@ -1,5 +1,11 @@
 #include "itsgolden.h"
 
+itsGolden::itsGolden()
+{
+    mFrameIndices.clear();
+    mFrames.clear();
+}
+
 itsGolden::itsGolden(const QString &fileName)
 {
     mFrames.clear();
@@ -49,6 +55,14 @@ void itsGolden::write(QJsonObject &json) {
         QJsonObject jsonFrameObject = framesArray[i].toObject();
         mFrames[i].write(jsonFrameObject);
     }
+}
+
+itsGolden& itsGolden::operator=(const itsGolden &golden){
+    mJson = golden.mJson;
+    mFileInfo = golden.mFileInfo;
+    mFrameIndices = golden.mFrameIndices;
+    mFrames = golden.mFrames;
+    return *this;
 }
 
 double itsGolden::evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ){

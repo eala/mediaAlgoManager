@@ -30,11 +30,18 @@ public:
     void displayItsFrame(Mat &frame, itsFrame *itsData, cv::Scalar color);
     Mat &getProcFrame(){return mProcFrame;}
 
-    void setTestIts(itsGolden *testIts){ mTestIts = testIts;}
-    void setGoldenIts(itsGolden *goldenIts){ mGoldenIts = goldenIts;}
+    void setTestIts(const itsGolden &testIts){ mTestIts = testIts;}
+    void setGoldenIts(const itsGolden &goldenIts){ mGoldenIts = goldenIts;}
+
+    itsGolden &getTestIts() {return mTestIts;}
+    itsGolden &getGoldenIts() {return mGoldenIts;}
+
+    vector<itsFrame> &getTestFrames() {return mTestIts.getFrames();}
+    vector<itsFrame> &getGoldenFrames() {return mTestIts.getFrames();}
 
     double evaluate(const CATEGORIES &categ);
     void showProcResult();
+
 private:
     CItsApp();  // do not allow implicit initilization
     string mMediaFileName;
@@ -43,8 +50,8 @@ private:
     Mat mProcFrame;
     char mProcWinTitle[128];
 
-    itsGolden *mTestIts;
-    itsGolden *mGoldenIts;
+    itsGolden mTestIts;
+    itsGolden mGoldenIts;
 
     EVALUATE_STATE mState;
 };

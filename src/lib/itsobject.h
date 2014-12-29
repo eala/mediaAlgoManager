@@ -10,10 +10,18 @@ using namespace cv;
 // allowed categories
 
 enum CATEGORIES{
-    CAR=1,
+    CAR=0,
     PEDESTRIAN,
     LANE,
-    UNKNOWN
+    UNKNOWN,
+    TOTAL_CATEGORIES
+};
+
+const char CATEGORY_NAMES[TOTAL_CATEGORIES][128] = {
+    "car",
+    "pedestrian",
+    "lane",
+    "unknown"
 };
 
 class itsObject
@@ -26,6 +34,7 @@ public:
     CATEGORIES parseCategory(const QString &str);
     Rect &getObject();
     CATEGORIES getCategory();
+    std::string getCategoryName();
 
     void setObject(Rect &rect);
     void setCategory(CATEGORIES &category);

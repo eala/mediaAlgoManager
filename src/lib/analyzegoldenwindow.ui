@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>800</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,11 +19,14 @@
      <rect>
       <x>340</x>
       <y>20</y>
-      <width>76</width>
+      <width>1335</width>
       <height>18</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -43,7 +46,7 @@
    <widget class="QLabel" name="frameLabel">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>600</x>
       <y>70</y>
       <width>640</width>
       <height>480</height>
@@ -53,7 +56,7 @@
      <string>Frame</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -110,7 +113,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QTableView" name="tableView"/>
+           <widget class="QTableView" name="candidateTableView"/>
           </item>
          </layout>
         </item>
@@ -174,7 +177,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1920</width>
      <height>22</height>
     </rect>
    </property>

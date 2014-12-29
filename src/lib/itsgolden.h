@@ -12,7 +12,7 @@
 class itsGolden
 {
 public:
-    //itsGolden();
+    itsGolden();
     itsGolden( const QString &fileName);
     ~itsGolden();
 
@@ -20,6 +20,7 @@ public:
     void write(QJsonObject &json) ;
 
     // getter & setter
+    itsGolden& operator=(const itsGolden &golden);
 
     vector<int> &getFrameIndices() {return mFrameIndices;}
     vector<itsFrame> &getFrames() {return mFrames;}

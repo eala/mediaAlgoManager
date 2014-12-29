@@ -2,6 +2,7 @@
 #define ANALYZEGOLDENWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
 
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
@@ -21,6 +22,7 @@ public:
 
 private:
     Ui::analyzeGoldenWindow *ui;
+    QStandardItemModel *mTestModel;
     CItsApp *mApp;
 };
 

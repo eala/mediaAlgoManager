@@ -21,8 +21,8 @@ CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts){
         qDebug() << "media files for test file & golden file are different\n";
     }else{
         *this = CItsApp(testIts.getFileName());
-        mTestIts = &testIts;
-        mGoldenIts = &goldenIts;
+        mTestIts = testIts;
+        mGoldenIts = goldenIts;
         mState = READY;
     }
 }
@@ -72,7 +72,7 @@ int CItsApp::readImage( string &fileName){
 int CItsApp::readVideo(){
     if(mMediaFileName.length() > 0){
         if(!mCapture.isOpened()){
-            throw "Erro when reading video\n";
+            throw "Error when reading video\n";
             return -1;
         }
 
@@ -94,7 +94,7 @@ int CItsApp::readVideo(){
 
 double CItsApp::evaluate(const CATEGORIES &categ){
     if(READY == mState){
-        return mTestIts->evaluate(*mGoldenIts, categ);
+        return mTestIts.evaluate(mGoldenIts, categ);
     }else{
         qDebug() << "CItsApp does not contain test file & golden file information" << endl;
         return -1;
