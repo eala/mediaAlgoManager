@@ -38,9 +38,12 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
         mApp = new CItsApp(testFile, goldenFile);
     }
 
-    setActionMenuBar();
-
     ui->setupUi(this);
+
+    createAction();
+    createMenu();
+    createToolBar();
+    createStatusBar();
 
     // main operation: calculate scores
     mApp->evaluate(CAR);    // fixme later, read category from ui selection
@@ -58,6 +61,50 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     }
 }
 
+void analyzeGoldenWindow::createAction()
+{
+    mNewFileAction = new QAction(tr("&New evaluate window"), this);
+    mNewFileAction->setStatusTip(tr("create new comparison window"));
+    connect(mNewFileAction, SIGNAL(triggered()), this, SLOT(newFile()));
+
+    mLoadTestFileAction = new QAction(QIcon(":/src/bin/images/open.png"), tr("&Open Test file"), this);
+    //openTestAct->setShortcuts(QKeySequence::New);
+    mLoadTestFileAction->setStatusTip(tr("Open test file"));
+    connect(mLoadTestFileAction, SIGNAL(triggered()), this, SLOT(loadTestFile()));
+
+    mLoadGoldenFileAction = new QAction(QIcon(":/src/bin/images/open.png"), tr("&Open Golden file"), this);
+    mLoadGoldenFileAction->setStatusTip(tr("Open golden file"));
+    connect(mLoadGoldenFileAction, SIGNAL(triggered()), this, SLOT(loadGoldenFile()));
+
+    mEvaluateAction = new QAction(QIcon(":/src/bin/images/paste.png"), tr("&Evaluate"), this);
+    mEvaluateAction->setStatusTip(tr("evaluate test & golden files"));
+    connect(mEvaluateAction, SIGNAL(triggered()), this, SLOT(evaluate()));
+}
+
+void analyzeGoldenWindow::createMenu(){
+    mMenuBar = new QMenuBar(this);
+    mMenuBar->setNativeMenuBar(true);
+    mFileMenu = mMenuBar->addMenu(tr("&File"));
+    mFileMenu->addAction(mNewFileAction);
+    mFileMenu->addAction(mLoadTestFileAction);
+    mFileMenu->addAction(mLoadGoldenFileAction);
+    mFileMenu->addSeparator();
+    mFileMenu->addAction(mEvaluateAction);
+}
+
+void analyzeGoldenWindow::createToolBar()
+{
+    mFileToolBar = addToolBar(tr("File"));
+    mFileToolBar->addAction(mLoadTestFileAction);
+    mFileToolBar->addAction(mLoadGoldenFileAction);
+    mFileToolBar->addAction(mEvaluateAction);
+}
+
+void analyzeGoldenWindow::createStatusBar()
+{
+    statusBar()->showMessage(tr("Ready"));
+}
+
 void analyzeGoldenWindow::updateScoreLabels(){
     int currentFrameIdx = mApp->getCurrentFrameIndex();
     double currentFrameScore = mApp->getCurrentFrameScore();
@@ -66,15 +113,7 @@ void analyzeGoldenWindow::updateScoreLabels(){
     ui->totalScoreLabel->setText(QString::number(totalScore));
 }
 
-void analyzeGoldenWindow::setActionMenuBar(){
-    mMenuBar = new QMenuBar(this);
-    mMenuBar->setNativeMenuBar(true);
 
-    mFileMenu = mMenuBar->addMenu(tr("&File"));
-    mNewFileAction = new QAction(tr("&New ..."), this);
-    mFileMenu->addAction(mNewFileAction);
-    connect(mNewFileAction, SIGNAL(triggered()), this, SLOT(newFile()));
-}
 
 analyzeGoldenWindow::~analyzeGoldenWindow()
 {
@@ -225,4 +264,16 @@ void analyzeGoldenWindow::keyPressEvent(QKeyEvent* event){
     }else if(Qt::Key_Left == event->key()){
         stepFrame(-1);
     }
+}
+
+void analyzeGoldenWindow::loadTestFile(){
+
+}
+
+void analyzeGoldenWindow::loadGoldenFile(){
+
+}
+
+void analyzeGoldenWindow::evaluate(){
+
 }

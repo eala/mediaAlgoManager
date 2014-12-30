@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QMenuBar>
+#include <QToolBar>
 #include <QKeyEvent>
 
 #include<opencv2/core/core.hpp>
@@ -23,9 +24,13 @@ public:
     ~analyzeGoldenWindow();
 
 private:
+    void createAction();
+    void createMenu();
+    void createStatusBar();
+    void createToolBar();
+
     void loadItsObjects();
     void drawFrame(const int frameIdx);
-    void setActionMenuBar();
     void updateScoreLabels();
     void stepFrame(int step=1);
 
@@ -35,6 +40,9 @@ protected:
 
 private slots:
     void newFile();
+    void loadTestFile();
+    void loadGoldenFile();
+    void evaluate();
 
 private:
     Ui::analyzeGoldenWindow *ui;
@@ -42,9 +50,16 @@ private:
     QStandardItemModel *mGoldenModel;
     CItsApp *mApp;
 
+    QAction *mNewFileAction;
+    QAction *mLoadTestFileAction;
+    QAction *mLoadGoldenFileAction;
+    QAction *mEvaluateAction;
+
     QMenuBar *mMenuBar;
     QMenu *mFileMenu;
-    QAction *mNewFileAction;
+
+    QToolBar *mFileToolBar;
+    QStatusBar *mStatusBar;
 };
 
 #endif // ANALYZEGOLDENWINDOW_H
