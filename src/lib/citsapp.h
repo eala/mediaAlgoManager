@@ -19,6 +19,7 @@ public:
         UNKNOWN
     };
 
+    CItsApp();
     CItsApp(const string &fileName);
     CItsApp(itsGolden &testIts, itsGolden &goldenIts);
     ~CItsApp();
@@ -31,8 +32,8 @@ public:
     Mat &getProcFrame(){return mProcFrame;}
     int getCurrentFrameIndex(){return mProcFrameIdx;}
 
-    void setTestIts(const itsGolden &testIts){ mTestIts = testIts;}
-    void setGoldenIts(const itsGolden &goldenIts){ mGoldenIts = goldenIts;}
+    void setTestIts(const itsGolden &testIts);
+    void setGoldenIts(const itsGolden &goldenIts);
 
     itsGolden &getTestIts() {return mTestIts;}
     itsGolden &getGoldenIts() {return mGoldenIts;}
@@ -50,7 +51,6 @@ public:
     void stepFrame(int step=1);
 
 private:
-    CItsApp();  // do not allow implicit initilization
     string mMediaFileName;
     VideoCapture mCapture;
 

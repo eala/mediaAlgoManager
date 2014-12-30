@@ -1,14 +1,16 @@
 #include "citsapp.h"
 
 CItsApp::CItsApp()
-    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
+    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
+      mState(NO_FILES)
 {
     mFrameScores.clear();
     sprintf(mProcWinTitle, "demo video");
 }
 
 CItsApp::CItsApp(const string &fileName)
-    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
+    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
+      mState(NO_FILES)
 {
      mFrameScores.clear();
     sprintf(mProcWinTitle, "demo video");
@@ -17,7 +19,8 @@ CItsApp::CItsApp(const string &fileName)
 }
 
 CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts)
-    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
+    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
+      mState(NO_FILES)
 {
      mFrameScores.clear();
     //qDebug() << "testIts media file: " << QString::fromStdString(testIts.getFileName());
@@ -50,14 +53,44 @@ void CItsApp::displayItsFrame(Mat &frame, itsFrame *itsData, cv::Scalar color){
     }
 }
 
+void CItsApp::setTestIts(const itsGolden &testIts){
+    mTestIts = testIts;
+    if(NO_FILES == mState){
+        mState = ONLY_TEST_FILE;
+    }else if(ONLY_GOLDEN_FILE == mState){
+        mState = READY;
+    }
+}
+
+void CItsApp::setGoldenIts(const itsGolden &goldenIts){
+    mGoldenIts = goldenIts;
+    if(NO_FILES == mState){
+        mState = ONLY_GOLDEN_FILE;
+    }else if(ONLY_TEST_FILE == mState){
+        mState = READY;
+    }
+}
+
 void CItsApp::moveToFrame(int index){
     assert(index >= 0);
-
     mProcFrameIdx = index;
 
     // fixme later, add use capture.get property to check it is video
+    string mediaFileName;
+    if(!mCapture.isOpened()){
+        if(ONLY_TEST_FILE == mState || READY == mState){
+            mediaFileName = mTestIts.getFileName();
+        }else if(ONLY_GOLDEN_FILE){
+            mediaFileName = mGoldenIts.getFileName();
+            mCapture.open(mGoldenIts.getFileName());
+        }
+        mCapture.open(mediaFileName);
+    }
+
     if(mCapture.isOpened()){
         mCapture.set(CV_CAP_PROP_POS_FRAMES, index);
+    }else{
+        qDebug() << "Could not open " << QString::fromStdString(mediaFileName);
     }
 
     mCapture >> mProcFrame;

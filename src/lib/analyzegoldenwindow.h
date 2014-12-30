@@ -24,13 +24,19 @@ public:
     ~analyzeGoldenWindow();
 
 private:
+    enum FileCategory{
+        TEST_FILE=0,
+        GOLDEN_FILE,
+        ALL_FILES
+    };
+
     void createAction();
     void createMenu();
     void createStatusBar();
     void createToolBar();
 
-    void loadItsObjects();
-    void drawFrame(const int frameIdx);
+    void drawItsObjects();
+    void drawFrame(const int frameIdx=0);
     void updateScoreLabels();
     void stepFrame(int step=1);
 
@@ -42,12 +48,14 @@ private slots:
     void newFile();
     void loadTestFile();
     void loadGoldenFile();
+    void loadItsFile(FileCategory fileCategory);
     void evaluate();
 
 private:
     Ui::analyzeGoldenWindow *ui;
     QStandardItemModel *mTestModel;
     QStandardItemModel *mGoldenModel;
+
     CItsApp *mApp;
 
     QAction *mNewFileAction;

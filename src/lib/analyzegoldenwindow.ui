@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Frame</string>
+     <string>Display image</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
@@ -143,14 +143,14 @@
          <item>
           <widget class="QLabel" name="frameScoreLabel">
            <property name="text">
-            <string>0.5</string>
+            <string>0.0</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="totalScoreLabel">
            <property name="text">
-            <string>42</string>
+            <string>0.0</string>
            </property>
           </widget>
          </item>
@@ -203,12 +203,12 @@
      <rect>
       <x>600</x>
       <y>30</y>
-      <width>59</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string># 20</string>
+     <string># frame index</string>
     </property>
    </widget>
   </widget>
