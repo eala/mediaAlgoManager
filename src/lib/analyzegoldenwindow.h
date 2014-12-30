@@ -33,6 +33,7 @@ private slots:
 private:
     Ui::analyzeGoldenWindow *ui;
     QStandardItemModel *mTestModel;
+    QStandardItemModel *mGoldenModel;
     CItsApp *mApp;
 
     QMenuBar *mMenuBar;

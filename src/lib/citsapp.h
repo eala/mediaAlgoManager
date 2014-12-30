@@ -39,7 +39,7 @@ public:
     EVALUATE_STATE getState(){return mState;}
 
     vector<itsFrame> &getTestFrames() {return mTestIts.getFrames();}
-    vector<itsFrame> &getGoldenFrames() {return mTestIts.getFrames();}
+    vector<itsFrame> &getGoldenFrames() {return mGoldenIts.getFrames();}
 
     // APIs
     double evaluate(const CATEGORIES &categ);   // return total scores

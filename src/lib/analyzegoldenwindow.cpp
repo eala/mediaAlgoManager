@@ -15,18 +15,18 @@ enum TableColumns{
 };
 
 const char columnName[TABLE_COLUMNS_COUNT][128] = {
-    "Frame Index",
+    "#",
     "x",
     "y",
-    "width",
-    "height",
+    "w",
+    "h",
     "category"
 };
 
 analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::analyzeGoldenWindow),
-    mApp(NULL)
+    mTestModel(NULL), mGoldenModel(NULL), mApp(NULL)
 {
     // release memory when window close
     setAttribute(Qt::WA_DeleteOnClose);
@@ -81,6 +81,10 @@ analyzeGoldenWindow::~analyzeGoldenWindow()
         delete mTestModel;
         mTestModel = NULL;
     }
+    if(mGoldenModel){
+        delete mGoldenModel;
+        mGoldenModel = NULL;
+    }
     delete ui;
 }
 
@@ -108,8 +112,11 @@ void analyzeGoldenWindow::drawFrame(const int frameIdx)
 void analyzeGoldenWindow::loadItsObjects()
 {
     const int rowCount = 10;
-    mTestModel = new QStandardItemModel(rowCount, CANDIDATE_CATEGORY, this);
-
+    if(!mTestModel){
+        mTestModel = new QStandardItemModel(rowCount, CANDIDATE_CATEGORY, this);    // lazy init
+    }else{
+        mTestModel->clear();
+    }
     // use const string to store TableColumns, ref: fcws
     mTestModel->setHorizontalHeaderItem(FRAME_INDEX, new QStandardItem(QString(columnName[FRAME_INDEX])));
     mTestModel->setHorizontalHeaderItem(CANDIDATE_X, new QStandardItem(QString(columnName[CANDIDATE_X])));
@@ -119,7 +126,7 @@ void analyzeGoldenWindow::loadItsObjects()
     mTestModel->setHorizontalHeaderItem(CANDIDATE_CATEGORY, new QStandardItem(QString(columnName[CANDIDATE_CATEGORY])));
 
     vector<itsFrame> testFrames = mApp->getTestFrames();
-    static int rowIdx = 0;
+    int rowIdx = 0;
 
     for(size_t i=0; i< testFrames.size(); ++i){
         vector<itsObject> testFrameObjects = testFrames[i].getCandidates();
@@ -145,6 +152,54 @@ void analyzeGoldenWindow::loadItsObjects()
     }
 
     ui->candidateTableView->setModel(mTestModel);
+    ui->candidateTableView->resizeColumnsToContents();
+    ui->candidateTableView->resizeRowsToContents();
+    ui->candidateTableView->verticalHeader()->setVisible(false);
+
+    // update golden view, fixme later, refactor the same components
+    if(!mGoldenModel){
+        mGoldenModel = new QStandardItemModel(rowCount, CANDIDATE_CATEGORY, this);    // lazy init
+    }else{
+        mGoldenModel->clear();
+    }
+    // use const string to store TableColumns, ref: fcws
+    mGoldenModel->setHorizontalHeaderItem(FRAME_INDEX, new QStandardItem(QString(columnName[FRAME_INDEX])));
+    mGoldenModel->setHorizontalHeaderItem(CANDIDATE_X, new QStandardItem(QString(columnName[CANDIDATE_X])));
+    mGoldenModel->setHorizontalHeaderItem(CANDIDATE_Y, new QStandardItem(QString(columnName[CANDIDATE_Y])));
+    mGoldenModel->setHorizontalHeaderItem(CANDIDATE_WIDTH, new QStandardItem(QString(columnName[CANDIDATE_WIDTH])));
+    mGoldenModel->setHorizontalHeaderItem(CANDIDATE_HEIGHT, new QStandardItem(QString(columnName[CANDIDATE_HEIGHT])));
+    mGoldenModel->setHorizontalHeaderItem(CANDIDATE_CATEGORY, new QStandardItem(QString(columnName[CANDIDATE_CATEGORY])));
+
+    vector<itsFrame> goldenFrames = mApp->getGoldenFrames();
+    rowIdx = 0;
+
+    for(size_t i=0; i< goldenFrames.size(); ++i){
+        vector<itsObject> goldenFrameObjects = goldenFrames[i].getCandidates();
+        int frameIdx = goldenFrames[i].getIndex();
+        for(size_t j=0; j<goldenFrameObjects.size(); ++j){
+            Rect objRect = goldenFrameObjects[j].getObject();
+            QString categoryName = QString::fromStdString(goldenFrameObjects[j].getCategoryName());
+            // fixme later, strange! when to release resources
+            QStandardItem *tableItemItsFrameIdx = new QStandardItem(QString::number(frameIdx));
+            mGoldenModel->setItem(rowIdx, FRAME_INDEX, tableItemItsFrameIdx);
+            QStandardItem *tableItemItsObjX = new QStandardItem(QString::number(objRect.x));
+            mGoldenModel->setItem(rowIdx, CANDIDATE_X,tableItemItsObjX);
+            QStandardItem *tableItemItsObjY = new QStandardItem(QString::number(objRect.y));
+            mGoldenModel->setItem(rowIdx, CANDIDATE_Y,tableItemItsObjY);
+            QStandardItem *tableItemItsObjW = new QStandardItem(QString::number(objRect.width));
+            mGoldenModel->setItem(rowIdx, CANDIDATE_WIDTH,tableItemItsObjW);
+            QStandardItem *tableItemItsObjH = new QStandardItem(QString::number(objRect.height));
+            mGoldenModel->setItem(rowIdx, CANDIDATE_HEIGHT,tableItemItsObjH);
+            QStandardItem *tableItemItsCategory = new QStandardItem(categoryName);
+            mGoldenModel->setItem(rowIdx, CANDIDATE_CATEGORY,tableItemItsCategory);
+            rowIdx++;
+        }
+    }
+
+    ui->goldenTableView->setModel(mGoldenModel);
+    ui->goldenTableView->resizeColumnsToContents();
+    ui->goldenTableView->resizeRowsToContents();
+    ui->goldenTableView->verticalHeader()->setVisible(false);
 
 }
 
