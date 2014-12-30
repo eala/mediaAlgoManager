@@ -46,9 +46,11 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     mApp->evaluate(CAR);    // fixme later, read category from ui selection
 
     // notice!! you can't see ui->frameLabel before ui->setupUi(this);
-    drawFrame(20);
+    drawFrame(1);
 
     updateScoreLabels();
+
+    ui->frameIdxLabel->setText("#" + QString::number(mApp->getCurrentFrameIndex()));
 
     // init test files
     if(mApp && CItsApp::READY == mApp->getState()){
@@ -106,6 +108,7 @@ void analyzeGoldenWindow::drawFrame(const int frameIdx)
             mApp->displayItsFrame(drawFrame, &goldenDatas, Scalar(0, 0, 255));
         }
         if(drawFrame.rows > 0) ui->frameLabel->setPixmap(QPixmap::fromImage(MatToQImage(drawFrame)));
+        ui->frameIdxLabel->setText("#" + QString::number(mApp->getCurrentFrameIndex()));
     }
 }
 
@@ -207,4 +210,19 @@ void analyzeGoldenWindow::newFile()
 {
     analyzeGoldenWindow *newAnalyzeGoldenWin = new analyzeGoldenWindow;
     newAnalyzeGoldenWin->show();
+}
+
+void analyzeGoldenWindow::stepFrame(int step){
+    if(mApp){
+        mApp->stepFrame(step);
+    }
+    drawFrame(mApp->getCurrentFrameIndex());
+}
+
+void analyzeGoldenWindow::keyPressEvent(QKeyEvent* event){
+    if(Qt::Key_Space == event->key() || Qt::Key_Right == event->key()){
+        stepFrame();
+    }else if(Qt::Key_Left == event->key()){
+        stepFrame(-1);
+    }
 }

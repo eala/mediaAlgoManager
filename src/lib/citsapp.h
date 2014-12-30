@@ -47,6 +47,7 @@ public:
     double getTotalScore();
     double getFrameScore(int index);
     void showProcResult();
+    void stepFrame(int step=1);
 
 private:
     CItsApp();  // do not allow implicit initilization

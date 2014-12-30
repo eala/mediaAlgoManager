@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QMenuBar>
+#include <QKeyEvent>
 
 #include<opencv2/core/core.hpp>
 #include<opencv2/highgui/highgui.hpp>
@@ -26,6 +27,11 @@ private:
     void drawFrame(const int frameIdx);
     void setActionMenuBar();
     void updateScoreLabels();
+    void stepFrame(int step=1);
+
+protected:
+    // event handler
+    void keyPressEvent(QKeyEvent* event);
 
 private slots:
     void newFile();

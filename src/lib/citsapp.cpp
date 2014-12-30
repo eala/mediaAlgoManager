@@ -63,6 +63,13 @@ void CItsApp::moveToFrame(int index){
     mCapture >> mProcFrame;
 }
 
+void CItsApp::stepFrame(int step)
+{
+    mProcFrameIdx += step;
+    mProcFrameIdx = std::max(mProcFrameIdx, 0);
+    moveToFrame(mProcFrameIdx);
+}
+
 void CItsApp::showProcResult(){
     if(mProcFrame.rows >0 ){
         imshow(mProcWinTitle, mProcFrame);
