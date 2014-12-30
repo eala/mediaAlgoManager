@@ -42,15 +42,26 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-
+    // main operation: calculate scores
+    mApp->evaluate(CAR);    // fixme later, read category from ui selection
 
     // notice!! you can't see ui->frameLabel before ui->setupUi(this);
-    drawFrame(1);
+    drawFrame(20);
+
+    updateScoreLabels();
 
     // init test files
     if(mApp && CItsApp::READY == mApp->getState()){
         loadItsObjects();
     }
+}
+
+void analyzeGoldenWindow::updateScoreLabels(){
+    int currentFrameIdx = mApp->getCurrentFrameIndex();
+    double currentFrameScore = mApp->getCurrentFrameScore();
+    double totalScore = mApp->getTotalScore();
+    ui->frameScoreLabel->setText(QString::number(currentFrameScore));
+    ui->totalScoreLabel->setText(QString::number(totalScore));
 }
 
 void analyzeGoldenWindow::setActionMenuBar(){
@@ -142,13 +153,3 @@ void analyzeGoldenWindow::newFile()
     analyzeGoldenWindow *newAnalyzeGoldenWin = new analyzeGoldenWindow;
     newAnalyzeGoldenWin->show();
 }
-
-
-
-/*
-void analyzeGoldenWindow::setFrame(const cv::Mat &img){
-    mFrame = img;
-}
-*/
-
-

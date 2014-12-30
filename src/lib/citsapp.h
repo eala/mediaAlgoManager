@@ -29,6 +29,7 @@ public:
     void moveToFrame(int index);
     void displayItsFrame(Mat &frame, itsFrame *itsData, cv::Scalar color);
     Mat &getProcFrame(){return mProcFrame;}
+    int getCurrentFrameIndex(){return mProcFrameIdx;}
 
     void setTestIts(const itsGolden &testIts){ mTestIts = testIts;}
     void setGoldenIts(const itsGolden &goldenIts){ mGoldenIts = goldenIts;}
@@ -40,7 +41,11 @@ public:
     vector<itsFrame> &getTestFrames() {return mTestIts.getFrames();}
     vector<itsFrame> &getGoldenFrames() {return mTestIts.getFrames();}
 
-    double evaluate(const CATEGORIES &categ);
+    // APIs
+    double evaluate(const CATEGORIES &categ);   // return total scores
+    double getCurrentFrameScore();
+    double getTotalScore();
+    double getFrameScore(int index);
     void showProcResult();
 
 private:
@@ -49,12 +54,16 @@ private:
     VideoCapture mCapture;
 
     Mat mProcFrame;
+    int mProcFrameIdx;
     char mProcWinTitle[128];
 
     itsGolden mTestIts;
     itsGolden mGoldenIts;
 
     EVALUATE_STATE mState;
+
+    map<int, double> mFrameScores;
+    double mTotalScore;
 };
 
 #endif // CITSAPP_H

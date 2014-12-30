@@ -18,13 +18,14 @@ class analyzeGoldenWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit analyzeGoldenWindow(QWidget *parent = 0);
+    analyzeGoldenWindow(QWidget *parent=0);
     ~analyzeGoldenWindow();
 
 private:
     void loadItsObjects();
     void drawFrame(const int frameIdx);
     void setActionMenuBar();
+    void updateScoreLabels();
 
 private slots:
     void newFile();

@@ -43,11 +43,11 @@
             "frameIdx": 20,
             "objects":[
                 {
-                    "rect": [234, 169, 110, 88],
+                    "rect": [234, 169, 55, 88],
                     "category": "CAR"
                 },
                 {
-                    "rect": [234, 162, 110, 88],
+                    "rect": [234, 162, 66, 88],
                     "category": "UNKNOWN"
                 },
                 {

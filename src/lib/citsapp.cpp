@@ -1,18 +1,25 @@
 #include "citsapp.h"
 
-CItsApp::CItsApp():mTestIts(NULL), mGoldenIts(NULL)
+CItsApp::CItsApp()
+    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
 {
+    mFrameScores.clear();
     sprintf(mProcWinTitle, "demo video");
 }
 
-CItsApp::CItsApp(const string &fileName) :mTestIts(NULL), mGoldenIts(NULL)
+CItsApp::CItsApp(const string &fileName)
+    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
 {
+     mFrameScores.clear();
     sprintf(mProcWinTitle, "demo video");
     mMediaFileName = fileName;
     mCapture.open(mMediaFileName);
 }
 
-CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts){
+CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts)
+    :mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0)
+{
+     mFrameScores.clear();
     //qDebug() << "testIts media file: " << QString::fromStdString(testIts.getFileName());
     //qDebug() << "goldenIts media file: " << QString::fromStdString(goldenIts.getFileName());
 
@@ -45,6 +52,9 @@ void CItsApp::displayItsFrame(Mat &frame, itsFrame *itsData, cv::Scalar color){
 
 void CItsApp::moveToFrame(int index){
     assert(index >= 0);
+
+    mProcFrameIdx = index;
+
     // fixme later, add use capture.get property to check it is video
     if(mCapture.isOpened()){
         mCapture.set(CV_CAP_PROP_POS_FRAMES, index);
@@ -79,6 +89,7 @@ int CItsApp::readVideo(){
         namedWindow(mProcWinTitle);
 
         for(;;){
+            mProcFrameIdx++;
             mCapture >> mProcFrame;
             if(mProcFrame.empty()) break;
             // it will make every frame show a window
@@ -94,9 +105,23 @@ int CItsApp::readVideo(){
 
 double CItsApp::evaluate(const CATEGORIES &categ){
     if(READY == mState){
-        return mTestIts.evaluate(mGoldenIts, categ);
+        mTotalScore = mTestIts.evaluate(mGoldenIts, categ);
+        mFrameScores = mTestIts.getFrameScores();
     }else{
         qDebug() << "CItsApp does not contain test file & golden file information" << endl;
-        return -1;
+        mTotalScore = -1;
     }
+    return mTotalScore;
+}
+
+double CItsApp::getCurrentFrameScore(){
+    return mFrameScores[mProcFrameIdx];
+}
+
+double CItsApp::getTotalScore(){
+    return mTotalScore;
+}
+
+double CItsApp::getFrameScore(int index){
+    return mFrameScores[index];
 }

@@ -25,6 +25,7 @@ public:
     vector<int> &getFrameIndices() {return mFrameIndices;}
     vector<itsFrame> &getFrames() {return mFrames;}
     int getFrame(int frameIdx, itsFrame &frame);
+    map<int, double> &getFrameScores() { return mFrameScores;}
 
     // File related
     string getMediaType(){return mFileInfo.getMediaType();}
@@ -46,6 +47,7 @@ private:
     itsFileInfo mFileInfo;
     vector<int> mFrameIndices;
     vector<itsFrame> mFrames;
+    map<int, double> mFrameScores;  // frameIdx, score
 };
 
 #endif // ITSGOLDEN_H

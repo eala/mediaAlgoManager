@@ -83,7 +83,9 @@ double itsGolden::evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ){
         if(it != otherFrameIndices.end()){
             itsFrame thisFrame = mFrames[i];
             itsFrame otherFrame = otherFrames[it - otherFrameIndices.begin()];
-            score += thisFrame.evaluate(otherFrame, categ);
+            double frameScore = thisFrame.evaluate(otherFrame, categ);
+            mFrameScores[mFrameIndices[i]] = frameScore;
+            score += frameScore;
         }
     }
     return score;
