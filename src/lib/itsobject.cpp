@@ -1,22 +1,23 @@
 #include "itsobject.h"
 
-CATEGORIES itsObject::parseCategory(const QString &str){
+CATEGORIES itsObject::parseCategory(const string &str){
     CATEGORIES category;
-    if(0==QString::compare("CAR", str, Qt::CaseInsensitive)){
+
+    if(0==str.compare("CAR")){
         category = CAR;
-    }else if(0==QString::compare("PEDESTRIAN", str, Qt::CaseInsensitive)){
+    }else if(0==str.compare("PEDESTRIAN")){
         category = PEDESTRIAN;
-    }else if(0==QString::compare("LANE", str, Qt::CaseInsensitive)){
+    }else if(0==str.compare("LANE")){
         category = LANE;
     }else{
         category = UNKNOWN;
     }
+
     return category;
 }
 
-itsObject::itsObject()
+itsObject::itsObject(): mCategory(ALL)
 {
-
 }
 
 itsObject::~itsObject()
@@ -49,24 +50,26 @@ void itsObject::setCategory( CATEGORIES &category){
     mCategory = category;
 }
 
-void itsObject::read( QJsonObject &json){
-    QJsonArray rectArray = json["rect"].toArray();
+void itsObject::read(jsonxx::Object &json)
+{
+    jsonxx::Array rectArray = json.get<jsonxx::Array>("rect");
     assert(rectArray.size() == 4);
-    mObject.x = rectArray[0].toInt();
-    mObject.y = rectArray[1].toInt();
-    mObject.width = rectArray[2].toInt();
-    mObject.height = rectArray[3].toInt();
-    mCategory = parseCategory(json["category"].toString());
+
+    mObject.x = rectArray.get<jsonxx::Number>(0);
+    mObject.y = rectArray.get<jsonxx::Number>(1);
+    mObject.width = rectArray.get<jsonxx::Number>(2);
+    mObject.height = rectArray.get<jsonxx::Number>(3);
+    mCategory = parseCategory(json.get<jsonxx::String>("category"));
 }
 
-void itsObject::write(QJsonObject &json) {
-    QJsonArray rectArray;
-    rectArray.append(mObject.x);
-    rectArray.append(mObject.y);
-    rectArray.append(mObject.width);
-    rectArray.append(mObject.height);
-    json["rect"] = rectArray;
-    json["category"] = mCategory;
+void itsObject::write(jsonxx::Object &json){
+    jsonxx::Array rectArray;
+    rectArray << mObject.x;
+    rectArray << mObject.y;
+    rectArray << mObject.width;
+    rectArray << mObject.height;
+    json << "rect" << rectArray;
+    json << "category" << mCategory;
 }
 
 // calculate rectangle overlapping -- intersection/union

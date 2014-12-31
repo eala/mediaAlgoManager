@@ -1,15 +1,19 @@
+INCLUDEPATH +=src/3rdparty
+
 SOURCES += \
-    src/lib/MatToQImage.cpp \
+    src/3rdparty/jsonxx.cpp \
+    src/3rdparty/MatToQImage.cpp \
     src/lib/mainwindow.cpp \
     src/lib/itsobject.cpp \
     src/lib/itsFrame.cpp \
     src/lib/itsgolden.cpp \
     src/lib/itsfileinfo.cpp \
     src/lib/citsapp.cpp \
-    src/lib/analyzegoldenwindow.cpp 
+    src/lib/analyzegoldenwindow.cpp
 
 HEADERS += \
-    src/lib/MatToQImage.h \
+    src/3rdparty/jsonxx.h \
+    src/3rdparty/MatToQImage.h \
     src/lib/mainwindow.h \
     src/lib/itsobject.h \
     src/lib/itsFrame.h \

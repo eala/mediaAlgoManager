@@ -2,7 +2,6 @@
 #define ITS_FRAME_H
 
 #include<opencv2/core/core.hpp>
-#include<QtCore>
 #include "itsobject.h"
 
 class itsFrame
@@ -11,8 +10,8 @@ public:
     itsFrame();
     ~itsFrame();
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) ;
+    void read(const jsonxx::Object &json);
+    void write(jsonxx::Object &json);
 
     int getIndex(){return mIndex;}
     vector<itsObject> &getCandidates() {return mCandidates;}

@@ -5,6 +5,7 @@
 #include "itsobject.h"
 
 #include <QFileDialog>
+#include <QDebug>
 
 enum TableColumns{
     FRAME_INDEX=0,
@@ -44,7 +45,7 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::analyzeGoldenWindow),
     mTestModel(NULL), mGoldenModel(NULL), mApp(NULL)
-{
+{    
     // release memory when window close
     setAttribute(Qt::WA_DeleteOnClose);
 
@@ -57,7 +58,6 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     createMenu();
     createToolBar();
     createStatusBar();
-
 }
 
 analyzeGoldenWindow::~analyzeGoldenWindow()
@@ -145,6 +145,7 @@ void analyzeGoldenWindow::drawFrame(const int frameIdx)
         }
         if(drawFrame.rows > 0) ui->frameLabel->setPixmap(QPixmap::fromImage(MatToQImage(drawFrame)));
         ui->frameIdxLabel->setText("#" + QString::number(mApp->getCurrentFrameIndex()));
+        ui->frameScoreLabel->setText(QString::number(mApp->getCurrentFrameScore()));
     }
 }
 
@@ -273,7 +274,7 @@ void analyzeGoldenWindow::loadItsFile(FileCategory fileCategory){
     QString fileName = QFileDialog::getOpenFileName(this);
     if(!fileName.isEmpty()){
         if(mApp){
-            itsGolden golden(fileName);
+            itsGolden golden(fileName.toUtf8().constData());
             if(TEST_FILE == fileCategory){
                 mApp->setTestIts(golden);
             }else if(GOLDEN_FILE == fileCategory){

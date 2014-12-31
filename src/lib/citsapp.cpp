@@ -1,16 +1,17 @@
 #include "citsapp.h"
 
 CItsApp::CItsApp()
-    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
-      mState(NO_FILES)
-{
+    : mMediaFileName(""),
+      mProcFrameIdx(0), mProcWinTitle("demo video"),
+      mState(NO_FILES), mTotalScore(0.0)
+{    
     mFrameScores.clear();
-    sprintf(mProcWinTitle, "demo video");
 }
 
 CItsApp::CItsApp(const string &fileName)
-    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
-      mState(NO_FILES)
+    : mMediaFileName(""),
+      mProcFrameIdx(0), mProcWinTitle("demo video"),
+      mState(NO_FILES), mTotalScore(0.0)
 {
      mFrameScores.clear();
     sprintf(mProcWinTitle, "demo video");
@@ -19,8 +20,9 @@ CItsApp::CItsApp(const string &fileName)
 }
 
 CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts)
-    : mProcFrameIdx(0), mTestIts(NULL), mGoldenIts(NULL), mTotalScore(0.0),
-      mState(NO_FILES)
+    : mMediaFileName(""),
+      mProcFrameIdx(0), mProcWinTitle("demo video"), mTestIts(NULL), mGoldenIts(NULL),
+      mState(NO_FILES), mTotalScore(0.0)
 {
      mFrameScores.clear();
     //qDebug() << "testIts media file: " << QString::fromStdString(testIts.getFileName());
@@ -28,7 +30,8 @@ CItsApp::CItsApp(itsGolden &testIts, itsGolden &goldenIts)
 
     // check same video
     if(0 != testIts.getFileName().compare(goldenIts.getFileName())){
-        qDebug() << "media files for test file & golden file are different\n";
+        // error handler
+        std::cout << "media files for test file & golden file are different\n";
     }else{
         *this = CItsApp(testIts.getFileName());
         mTestIts = testIts;
@@ -90,7 +93,8 @@ void CItsApp::moveToFrame(int index){
     if(mCapture.isOpened()){
         mCapture.set(CV_CAP_PROP_POS_FRAMES, index);
     }else{
-        qDebug() << "Could not open " << QString::fromStdString(mediaFileName);
+        // error handler
+        std::cout << "Could not open " << mediaFileName << std::endl;
     }
 
     mCapture >> mProcFrame;
@@ -148,7 +152,8 @@ double CItsApp::evaluate(const CATEGORIES &categ){
         mTotalScore = mTestIts.evaluate(mGoldenIts, categ);
         mFrameScores = mTestIts.getFrameScores();
     }else{
-        qDebug() << "CItsApp does not contain test file & golden file information" << endl;
+        // error handler
+        std::cout << "CItsApp does not contain test file & golden file information" << std::endl;
         mTotalScore = -1;
     }
     return mTotalScore;

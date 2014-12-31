@@ -10,26 +10,28 @@ itsFrame::~itsFrame()
 
 }
 
-void itsFrame::read(const QJsonObject &json){
-    mIndex = json["frameIdx"].toInt();
+void itsFrame::read(const jsonxx::Object &json){
+    mIndex = json.get<jsonxx::Number>("frameIdx");
     mCandidates.clear();
-    QJsonArray jsonCandidates = json["objects"].toArray();
-    for(int i=0; i< jsonCandidates.size(); ++i){
-        QJsonObject jsonCandidate = jsonCandidates[i].toObject();
+    jsonxx::Array jsonCandidates = json.get<jsonxx::Array>("objects");
+
+    for(size_t i=0; i< jsonCandidates.size(); ++i){
+        jsonxx::Object jsonCandidate = jsonCandidates.get<jsonxx::Object>(i);
         itsObject itsObj;
         itsObj.read(jsonCandidate); // fixme later, itsObject should be able to init from read
         mCandidates.push_back(itsObj);
     }
 }
 
-void itsFrame::write(QJsonObject &json) {
-    json["frameIdx"] = mIndex;
-    QJsonArray jsonCandidates = json["objects"].toArray();
+void itsFrame::write(jsonxx::Object &json) {
+    json << "frameIdx" << mIndex;
+    jsonxx::Array jsonCandidates = json.get<jsonxx::Array>("objects");
+
     for(size_t i=0; i<mCandidates.size(); ++i){
-        QJsonObject jsonCandidate;
+        jsonxx::Object jsonCandidate;
         itsObject itsObj = mCandidates[i];
         itsObj.write(jsonCandidate);
-        jsonCandidates.append(jsonCandidate);
+        jsonCandidates << jsonCandidate;
     }
 }
 
@@ -46,7 +48,7 @@ double itsFrame::evaluate(itsFrame &otherFrame, const CATEGORIES &categ){
             }
         }
     }
-    qDebug() << "frame " << mIndex << " score: " << score;
+    //std::cout << "frame " << mIndex << " score: " << score;
     return score;
 }
 

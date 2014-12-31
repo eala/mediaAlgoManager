@@ -2,8 +2,8 @@
 #define ITSOBJECT_H
 
 #include <opencv2/core/core.hpp>
-#include <QJsonObject>
-#include <QJsonArray>
+#include "jsonxx.h"
+#include <fstream>
 
 using namespace cv;
 
@@ -14,6 +14,7 @@ enum CATEGORIES{
     PEDESTRIAN,
     LANE,
     UNKNOWN,
+    ALL,
     TOTAL_CATEGORIES
 };
 
@@ -21,7 +22,8 @@ const char CATEGORY_NAMES[TOTAL_CATEGORIES][128] = {
     "car",
     "pedestrian",
     "lane",
-    "unknown"
+    "unknown",
+    "all"
 };
 
 class itsObject
@@ -31,7 +33,7 @@ public:
     itsObject(Rect &rect, CATEGORIES category);
     ~itsObject();
 
-    CATEGORIES parseCategory(const QString &str);
+    CATEGORIES parseCategory(const string &str);
     Rect &getObject();
     CATEGORIES getCategory();
     std::string getCategoryName();
@@ -39,8 +41,8 @@ public:
     void setObject(Rect &rect);
     void setCategory(CATEGORIES &category);
 
-    void read(QJsonObject &json);
-    void write(QJsonObject &json);
+    void read(jsonxx::Object &json);
+    void write(jsonxx::Object &json);
 
     void update(Rect &rect, CATEGORIES &category);
 

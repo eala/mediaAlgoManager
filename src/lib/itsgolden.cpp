@@ -2,25 +2,28 @@
 
 itsGolden::itsGolden()
 {
+    mCategories.clear();
     mFrameIndices.clear();
     mFrames.clear();
-    mCategories.clear();
+    mFrameScores.clear();
 }
 
-itsGolden::itsGolden(const QString &fileName)
+itsGolden::itsGolden(const string &fileName)
 {
-    mFrames.clear();
     mCategories.clear();
     mFrameIndices.clear();
-    QFile loadFile(fileName);
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file.");
-        //return false;
+    mFrames.clear();
+    mFrameScores.clear();
+
+    std::ifstream loadFile;
+    loadFile.open(fileName, std::fstream::in);
+    bool parseResult = mJson.parse(loadFile);
+    if(parseResult){
+       cout << "parse json success" << endl;
+    }else{
+        cout << "parse json failed" << endl;
     }
 
-    QByteArray saveData = loadFile.readAll();
-    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    mJson = loadDoc.object();
     read(mJson);
     loadFile.close();
 }
@@ -42,18 +45,19 @@ int itsGolden::getFrame(int frameIdx, itsFrame &frame){
 }
 
 // store only existing objects
-void itsGolden::read( QJsonObject &json){
-    mFileInfo.read(json["file"].toObject());
-    QJsonArray framesArray = json["frames"].toArray();
+void itsGolden::read(jsonxx::Object &json){
+    mFileInfo.read(json.get<jsonxx::Object>("file"));
+    jsonxx::Array framesArray = json.get<jsonxx::Array>("frames");
 
-    for(int i=0; i< framesArray.size(); ++i){
+    for(size_t i=0; i< framesArray.size(); ++i){
         itsFrame itsframe;
-        itsframe.read(framesArray[i].toObject());
+        itsframe.read(framesArray.get<jsonxx::Object>(i));
         mFrameIndices.push_back(itsframe.getIndex());
         mFrames.push_back(itsframe);
     }
 
-    QJsonArray categoryArray = json["categories"].toArray();
+    jsonxx::Array categoryArray = json.get<jsonxx::Array>("categories");
+
 #if 1
     mCategories.push_back("ALL");
     mCategories.push_back("CAR");
@@ -62,20 +66,21 @@ void itsGolden::read( QJsonObject &json){
 #else
     // fixme, not working
     for(int i=0; i< categoryArray.size(); ++i){
-        string refStr(categoryArray[i].toString().toUtf8().constData());
+        //string refStr(categoryArray[i].toString().toUtf8().constData());
+        string str(categoryArray.get<string>(i));
         refStr += "" + refStr;
         mCategories.push_back(refStr.c_str());
     }
 #endif
 }
 
-void itsGolden::write(QJsonObject &json) {
-    QJsonObject jsonFileObj = json["file"].toObject();
+void itsGolden::write(jsonxx::Object &json){
+    jsonxx::Object jsonFileObj = json.get<jsonxx::Object>("file");
     mFileInfo.write(jsonFileObj);
 
-    QJsonArray framesArray = json["frames"].toArray();
-    for(int i=0; i< framesArray.size(); ++i){
-        QJsonObject jsonFrameObject = framesArray[i].toObject();
+    jsonxx::Array framesArray = json.get<jsonxx::Array>("frames");
+    for(size_t i=0; i< framesArray.size(); ++i){
+        jsonxx::Object jsonFrameObject = framesArray.get<jsonxx::Object>(i);
         mFrames[i].write(jsonFrameObject);
     }
 }

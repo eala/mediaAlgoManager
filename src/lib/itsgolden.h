@@ -1,23 +1,21 @@
 #ifndef ITSGOLDEN_H
 #define ITSGOLDEN_H
 
-#include <QJsonArray>
-#include <QJsonObject>
-
 #include "itsfileinfo.h"
 #include "itsFrame.h"
 #include "itsobject.h"
+#include "jsonxx.h"
 
 // all the APIs
 class itsGolden
 {
 public:
     itsGolden();
-    itsGolden( const QString &fileName);
+    itsGolden(const string &fileName);
     ~itsGolden();
 
-    void read( QJsonObject &json);
-    void write(QJsonObject &json) ;
+    void read(jsonxx::Object &json);
+    void write(jsonxx::Object &json);
 
     // getter & setter
     itsGolden& operator=(const itsGolden &golden);
@@ -44,7 +42,7 @@ public:
     double evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ);
 
 private:
-    QJsonObject mJson;
+    jsonxx::Object mJson;
     itsFileInfo mFileInfo;
     vector<string> mCategories;
     vector<int> mFrameIndices;

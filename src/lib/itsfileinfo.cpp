@@ -1,8 +1,8 @@
 #include "itsfileinfo.h"
 
 itsFileInfo::itsFileInfo()
+    : mFileName(""), mType(""), mVersion(""), mCreateTime(""), mLastUpdate("")
 {
-
 }
 
 itsFileInfo::~itsFileInfo()
@@ -10,19 +10,18 @@ itsFileInfo::~itsFileInfo()
 
 }
 
-void itsFileInfo::read(const QJsonObject &json){
-    mFileName = json["name"].toString().toStdString();
-    mType = json["type"].toString().toStdString();
-    mVersion = json["version"].toString().toStdString();
-    mCreateTime = json["createTime"].toString().toStdString();
-    mLastUpdate = json["lastUpdate"].toString().toStdString();
+void itsFileInfo::read(const jsonxx::Object &json){
+    mFileName = json.get<jsonxx::String>("name");
+    mType = json.get<jsonxx::String>("type");
+    mVersion = json.get<jsonxx::String>("version");
+    mCreateTime = json.get<jsonxx::String>("createTime");
+    mLastUpdate = json.get<jsonxx::String>("lastUpdate");
 }
 
-void itsFileInfo::write(QJsonObject &json) {
-    json["name"] =QString::fromStdString(mFileName);
-    json["type"] =QString::fromStdString(mType);
-    json["version"] =QString::fromStdString(mVersion);
-    json["createTime"] =QString::fromStdString(mCreateTime);
-    json["lastUpdate"] =QString::fromStdString(mLastUpdate);
+void itsFileInfo::write(jsonxx::Object &json) {
+    json << "name" << mFileName;
+    json << "type" << mType;
+    json << "version" << mVersion;
+    json << "createTime" << mCreateTime;
+    json << "lastUpdate" << mLastUpdate;
 }
-

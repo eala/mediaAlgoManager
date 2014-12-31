@@ -1,8 +1,7 @@
 #ifndef ITSFILEINFO_H
 #define ITSFILEINFO_H
 
-#include <QString>
-#include <QJsonObject>
+#include "jsonxx.h"
 
 using namespace std;
 
@@ -12,8 +11,8 @@ public:
     itsFileInfo();
     ~itsFileInfo();
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) ;
+    void read(const jsonxx::Object &json);
+    void write(jsonxx::Object &json);
 
     string getMediaType(){ return mType;}
     string getFileName() const{return mFileName;}
