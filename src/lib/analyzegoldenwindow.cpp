@@ -25,6 +25,21 @@ const char columnName[TABLE_COLUMNS_COUNT][128] = {
     "category"
 };
 
+void analyzeGoldenWindow::updateCategoryComboBox(const vector<string> &categories, FileCategory fileType){
+    if(TEST_FILE == fileType){
+        ui->testCategoryComboBox->clear();
+        qDebug() << "categories: " << categories.size();
+        for(size_t i=0; i<categories.size(); ++i){
+            ui->testCategoryComboBox->addItem(QString::fromStdString(categories[i]));
+        }
+    }else if(GOLDEN_FILE == fileType){
+        ui->goldenCategoryComboBox->clear();
+        for(size_t i=0; i<categories.size(); ++i){
+            ui->goldenCategoryComboBox->addItem(QString::fromStdString(categories[i]));
+        }
+    }
+}
+
 analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::analyzeGoldenWindow),
@@ -42,6 +57,7 @@ analyzeGoldenWindow::analyzeGoldenWindow(QWidget *parent) :
     createMenu();
     createToolBar();
     createStatusBar();
+
 }
 
 analyzeGoldenWindow::~analyzeGoldenWindow()
@@ -276,10 +292,12 @@ void analyzeGoldenWindow::loadItsFile(FileCategory fileCategory){
 void analyzeGoldenWindow::loadTestFile(){
     // lazy to learn pass parameter in SLOT
     loadItsFile(TEST_FILE);
+    updateCategoryComboBox(mApp->getTestIts().getCategories(), TEST_FILE);
 }
 
 void analyzeGoldenWindow::loadGoldenFile(){
     loadItsFile(GOLDEN_FILE);
+    updateCategoryComboBox(mApp->getGoldenIts().getCategories(), GOLDEN_FILE);
 }
 
 void analyzeGoldenWindow::evaluate(){

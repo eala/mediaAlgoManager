@@ -38,6 +38,8 @@ private:
     void drawItsObjects();
     void drawFrame(const int frameIdx=0);
     void updateScoreLabels();
+    void updateCategoryComboBox(const vector<string> &categories, FileCategory fileType);
+
     void stepFrame(int step=1);
 
 protected:

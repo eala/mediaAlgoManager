@@ -26,6 +26,7 @@ public:
     vector<itsFrame> &getFrames() {return mFrames;}
     int getFrame(int frameIdx, itsFrame &frame);
     map<int, double> &getFrameScores() { return mFrameScores;}
+    vector<string> &getCategories() {return mCategories;}
 
     // File related
     string getMediaType(){return mFileInfo.getMediaType();}
@@ -45,6 +46,7 @@ public:
 private:
     QJsonObject mJson;
     itsFileInfo mFileInfo;
+    vector<string> mCategories;
     vector<int> mFrameIndices;
     vector<itsFrame> mFrames;
     map<int, double> mFrameScores;  // frameIdx, score

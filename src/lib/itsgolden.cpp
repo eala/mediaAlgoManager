@@ -4,11 +4,14 @@ itsGolden::itsGolden()
 {
     mFrameIndices.clear();
     mFrames.clear();
+    mCategories.clear();
 }
 
 itsGolden::itsGolden(const QString &fileName)
 {
     mFrames.clear();
+    mCategories.clear();
+    mFrameIndices.clear();
     QFile loadFile(fileName);
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open save file.");
@@ -49,6 +52,21 @@ void itsGolden::read( QJsonObject &json){
         mFrameIndices.push_back(itsframe.getIndex());
         mFrames.push_back(itsframe);
     }
+
+    QJsonArray categoryArray = json["categories"].toArray();
+#if 1
+    mCategories.push_back("ALL");
+    mCategories.push_back("CAR");
+    mCategories.push_back("LANE");
+    mCategories.push_back("PEDESTRIAN");
+#else
+    // fixme, not working
+    for(int i=0; i< categoryArray.size(); ++i){
+        string refStr(categoryArray[i].toString().toUtf8().constData());
+        refStr += "" + refStr;
+        mCategories.push_back(refStr.c_str());
+    }
+#endif
 }
 
 void itsGolden::write(QJsonObject &json) {
