@@ -18,7 +18,6 @@
     "categories":[
         "CAR",
         "PEDESTRIAN",
-        "LANE",
         "UNKNOWN"
         ],
     "frames":[

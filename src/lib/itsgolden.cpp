@@ -3,17 +3,17 @@
 itsGolden::itsGolden()
 {
     mCategories.clear();
-    mFrameIndices.clear();
     mFrames.clear();
     mFrameScores.clear();
+    mAllFrames.clear();
 }
 
 itsGolden::itsGolden(const string &fileName)
 {
     mCategories.clear();
-    mFrameIndices.clear();
     mFrames.clear();
     mFrameScores.clear();
+    mAllFrames.clear();
 
     std::ifstream loadFile;
     loadFile.open(fileName, std::fstream::in);
@@ -35,13 +35,14 @@ itsGolden::~itsGolden()
 
 int itsGolden::getFrame(int frameIdx, itsFrame &frame){
     int index=-1;
-    vector<int>::iterator it;
-    it = find (mFrameIndices.begin(), mFrameIndices.end(), frameIdx);
-    if(it != mFrameIndices.end()){
-        index = it-mFrameIndices.begin();
-        frame = mFrames[index];
+    map<int, itsFrame >::iterator it;
+    it = mFrames.find(frameIdx);
+    if(it != mFrames.end()){
+        frame = mFrames[frameIdx];
+        index = 0;  // use index 0 to indicate it finds
     }
     return index;
+
 }
 
 // store only existing objects
@@ -52,26 +53,16 @@ void itsGolden::read(jsonxx::Object &json){
     for(size_t i=0; i< framesArray.size(); ++i){
         itsFrame itsframe;
         itsframe.read(framesArray.get<jsonxx::Object>(i));
-        mFrameIndices.push_back(itsframe.getIndex());
-        mFrames.push_back(itsframe);
+        mFrames[itsframe.getIndex()] = itsframe;
+        mAllFrames.push_back(itsframe);
     }
 
     jsonxx::Array categoryArray = json.get<jsonxx::Array>("categories");
 
-#if 1
-    mCategories.push_back("ALL");
-    mCategories.push_back("CAR");
-    mCategories.push_back("LANE");
-    mCategories.push_back("PEDESTRIAN");
-#else
-    // fixme, not working
     for(int i=0; i< categoryArray.size(); ++i){
-        //string refStr(categoryArray[i].toString().toUtf8().constData());
-        string str(categoryArray.get<string>(i));
-        refStr += "" + refStr;
-        mCategories.push_back(refStr.c_str());
+        string str(categoryArray.get<jsonxx::String>(i));
+        mCategories.push_back(str.c_str());
     }
-#endif
 }
 
 void itsGolden::write(jsonxx::Object &json){
@@ -88,31 +79,38 @@ void itsGolden::write(jsonxx::Object &json){
 itsGolden& itsGolden::operator=(const itsGolden &golden){
     mJson = golden.mJson;
     mFileInfo = golden.mFileInfo;
-    mFrameIndices = golden.mFrameIndices;
+    mCategories = golden.mCategories;
+    mAllFrames = golden.mAllFrames;
     mFrames = golden.mFrames;
+    mFrameScores = golden.mFrameScores;
+
     return *this;
 }
 
 double itsGolden::evaluate(itsGolden &otherItsGolden, const CATEGORIES &categ){
     // fixme later, fill two golden files with union frame counts
-    assert(mFrames.size() == mFrameIndices.size());
-    vector<itsFrame> otherFrames = otherItsGolden.getFrames();
-    vector<int> otherFrameIndices = otherItsGolden.getFrameIndices();
+    map<int, itsFrame> otherFrames = otherItsGolden.getFrames();
 
     double score(0.0);
-    for(size_t i=0; i< mFrames.size(); ++i){
-        std::vector<int>::iterator it;
-        it = find (otherFrameIndices.begin(), otherFrameIndices.end(), mFrameIndices[i]);
-        if(it != otherFrameIndices.end()){
-            itsFrame thisFrame = mFrames[i];
-            itsFrame otherFrame = otherFrames[it - otherFrameIndices.begin()];
-            double frameScore = thisFrame.evaluate(otherFrame, categ);
-            mFrameScores[mFrameIndices[i]] = frameScore;
+
+    for(map<int, itsFrame>::iterator it=mFrames.begin(); it != mFrames.end(); ++it){
+        int frameIndex = it->first;
+        if(otherFrames.end() != mFrames.find(frameIndex)){
+            itsFrame testFrame = mFrames[frameIndex];
+            itsFrame goldenFrame = otherFrames[frameIndex];
+            double frameScore = testFrame.evaluate(goldenFrame,categ);
+            mFrameScores[frameIndex] = frameScore;
             score += frameScore;
         }
     }
+
     return score;
 }
+
+void itsGolden::addObject(const int frameIdx, const Rect &objRect, CATEGORIES &categ){
+
+}
+
 
 /*
 void itsGolden::updateFrame(int frameIdx,  Rect &rect,  CATEGORIES &categ){

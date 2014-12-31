@@ -39,8 +39,8 @@ public:
     itsGolden &getGoldenIts() {return mGoldenIts;}
     EVALUATE_STATE getState(){return mState;}
 
-    vector<itsFrame> &getTestFrames() {return mTestIts.getFrames();}
-    vector<itsFrame> &getGoldenFrames() {return mGoldenIts.getFrames();}
+    vector<itsFrame> &getTestFrames() {return mTestIts.getAllFrames();}
+    vector<itsFrame> &getGoldenFrames() {return mGoldenIts.getAllFrames();}
 
     // APIs
     double evaluate(const CATEGORIES &categ);   // return total scores

@@ -20,8 +20,9 @@ public:
     // getter & setter
     itsGolden& operator=(const itsGolden &golden);
 
-    vector<int> &getFrameIndices() {return mFrameIndices;}
-    vector<itsFrame> &getFrames() {return mFrames;}
+    map<int, itsFrame> &getFrames() {return mFrames;}
+    vector<itsFrame> &getAllFrames() {return mAllFrames;}
+
     int getFrame(int frameIdx, itsFrame &frame);
     map<int, double> &getFrameScores() { return mFrameScores;}
     vector<string> &getCategories() {return mCategories;}
@@ -33,6 +34,7 @@ public:
 
     // support CRUD operations
     // Update
+    void addObject(const int frameIdx, const Rect &objRect, CATEGORIES &categ);
     void updateFrame(int frameIdx,  Rect &rect,  CATEGORIES &categ);
 
     // Delete
@@ -45,8 +47,8 @@ private:
     jsonxx::Object mJson;
     itsFileInfo mFileInfo;
     vector<string> mCategories;
-    vector<int> mFrameIndices;
-    vector<itsFrame> mFrames;
+    vector<itsFrame> mAllFrames;
+    map<int, itsFrame> mFrames;
     map<int, double> mFrameScores;  // frameIdx, score
 };
 
